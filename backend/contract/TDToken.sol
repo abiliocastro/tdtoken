@@ -22,19 +22,19 @@ contract TDToken {
     // TD Actions
 
     // Sends an amount of newly created coins to an address
-    function mint(string receiver, uint amount) public {
+    function mint(string memory receiver, uint amount) public {
         require(msg.sender == minter);
         balances[receiver] += amount;
     }
 
     // Authorize if to transact
-    function authorize(string financial_institution) public {
+    function authorize(string memory financial_institution) public {
         require(msg.sender == minter);
         allowed_ifs[financial_institution] = true;
     }
 
     // Unauthorize if to transact
-    function unauthorize(string financial_institution) public {
+    function unauthorize(string memory financial_institution) public {
         require(msg.sender == minter);
         allowed_ifs[financial_institution] = false;
     }
@@ -46,9 +46,9 @@ contract TDToken {
     // IFs actions
 
     // Bind user key to financial institution
-    function bind_key(string _financial_institution, string _key) public {
+    function bind_key(string memory _financial_institution, string memory _key) public {
         require(allowed_ifs[_financial_institution]);
-        if(key_holder[_key] != "")
+        if(!equals(key_holder[_key], ""))
             revert KeyAlreadyBinded({
                 financial_institution: _financial_institution,
                 key: _key
@@ -58,7 +58,7 @@ contract TDToken {
 
     // Sends an amount of existing coins
     // from any caller to an address
-    function send(string _financial_institution, string sender, string receiver, uint amount) public {
+    function send(string memory _financial_institution, string memory sender, string memory receiver, uint amount) public {
         require(allowed_ifs[_financial_institution]);
         if(amount > balances[sender])
             revert InsufficientBalance({
@@ -66,15 +66,21 @@ contract TDToken {
                 available: balances[sender]
             });
         
-        if(key_holder[sender] != _financial_institution)
+        if(!equals(key_holder[sender], _financial_institution))
             revert NotKeyHolder({
                 financial_institution: _financial_institution,
                 key: sender 
             });
         
-
         balances[sender] -= amount;
         balances[receiver] += amount;
         emit Sent(sender, receiver, amount);
+    }
+
+    function equals(string memory str1, string memory str2) private pure returns (bool) {
+        if (bytes(str1).length != bytes(str2).length) {
+            return false;
+        }
+        return keccak256(abi.encodePacked(str1)) == keccak256(abi.encodePacked(str2));
     }
 }
