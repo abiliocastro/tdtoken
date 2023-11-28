@@ -6,7 +6,8 @@
   "scripts": {
     "compile": "node scripts/compileContract.js",
     "deploy": "node scripts/deployContract.js",
-    "test": "jest"
+    "test": "jest",
+    "test:debug": "jest --detectOpenHandles"
   },
   "author": "Abilio Castro",
   "license": "MIT",

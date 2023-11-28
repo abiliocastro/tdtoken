@@ -34,9 +34,10 @@ function getTxForMethod(method_abi) {
 }
 
 async function estimateTxGas(tx, method) {
-    const gas_estimate = await web3.eth.estimateGas(tx);
-    console.log(`Estimated ${method} tx gas usage: ` + gas_estimate);
-    return gas_estimate;
+    return web3.eth.estimateGas(tx).then((gas_estimate) => {
+        // console.log(`Estimated ${method} tx gas usage: ` + gas_estimate);
+        return gas_estimate;
+    });
 }
 
 async function sendMethodTransaction(method_abi, method_name) {
@@ -47,31 +48,12 @@ async function sendMethodTransaction(method_abi, method_name) {
     console.log("Raw transaction data: " + (signedTx).rawTransaction);
     
     // Sending the transaction to the network
-    const receipt = await web3.eth
-        .sendSignedTransaction(signedTx.rawTransaction)
-        .once("transactionHash", (txhash) => {
-        console.log(`Mining transaction ...`);
-        console.log(`https://sepolia.etherscan.io/tx/${txhash}`);
+    web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+        .then((receipt) => {
+            console.log(`Transaction mined!`);
+            console.log(`https://sepolia.etherscan.io/tx/${receipt.transactionHash}`);
+            console.log(`Mined in block ${receipt.blockNumber}`);
         });
-    // The transaction is now on chain!
-    console.log(`Mined in block ${receipt.blockNumber}`);
-}
-
-async function sendMethodTransactionResult(method_abi, method_name) {
-    const tx = getTxForMethod(method_abi)
-    tx.gas = await estimateTxGas(tx, method_name)
-    
-    const signedTx = await web3.eth.accounts.signTransaction(tx, signer.privateKey);
-    console.log("Raw transaction data: " + (signedTx).rawTransaction);
-    
-    // Sending the transaction to the network
-    const result = await web3.eth
-        .sendSignedTransaction(signedTx.rawTransaction)
-        .once("transactionHash", (txhash) => {
-        console.log(`Mining transaction ...`);
-        console.log(`https://sepolia.etherscan.io/tx/${txhash}`);
-        });
-    return result;
 }
 
 // Contract methods
@@ -86,7 +68,7 @@ async function mint(key, value) {
 
 async function balances(key) {
     const balance = await myContract.methods.balances(key).call();
-    console.log(`${key} balance: ` + balance);
+    // console.log(`${key} balance: ` + balance);
     return balance;
 }
 
@@ -111,13 +93,12 @@ async function bind_key(financial_institution, key) {
         sendMethodTransaction(method_abi, "bind_key")
 	} catch (error) {
         decodedError = web3.eth.abi.decodeParameter('string', error.data);
-		//console.error(error);
         console.log("Error: " + decodedError);
 	}
 }
 
-async function check_key(financial_institution, key) {
-	return myContract.methods.check_key(financial_institution, key).call();
+async function key_holder(key) {
+	return await myContract.methods.key_holder(key).call();
 }
 
 async function send(financial_institution, sender, receiver, amount) {
@@ -126,9 +107,8 @@ async function send(financial_institution, sender, receiver, amount) {
         sendMethodTransaction(method_abi, "send")
 	} catch (error) {
 		decodedError = web3.eth.abi.decodeParameter('string', error.data);
-		//console.error(error);
         console.log("Error: " + decodedError);
 	}
 }
 
-module.exports = { mint, balances, authorize, allowed_ifs, bind_key, check_key, send };
+module.exports = { mint, balances, authorize, allowed_ifs, bind_key, key_holder, send };
