@@ -4,7 +4,9 @@
   "description": "Server for Sepolia communication",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "node scripts/compileContract.js",
+    "deploy": "node scripts/deployContract.js",
+    "test": "jest"
   },
   "author": "Abilio Castro",
   "license": "MIT",
@@ -13,5 +15,8 @@
     "express": "^4.18.2",
     "solc": "^0.8.4",
     "web3": "^4.2.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

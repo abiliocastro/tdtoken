@@ -59,18 +59,18 @@ contract TDToken {
     // Sends an amount of existing coins
     // from any caller to an address
     function send(string memory _financial_institution, string memory sender, string memory receiver, uint amount) public {
-        require(allowed_ifs[_financial_institution]);
-        if(amount > balances[sender])
-            revert InsufficientBalance({
-                requested: amount,
-                available: balances[sender]
-            });
+        // require(allowed_ifs[_financial_institution]);
+        // if(amount > balances[sender])
+        //     revert InsufficientBalance({
+        //         requested: amount,
+        //         available: balances[sender]
+        //     });
         
-        if(!equals(key_holder[sender], _financial_institution))
-            revert NotKeyHolder({
-                financial_institution: _financial_institution,
-                key: sender 
-            });
+        // if(!equals(key_holder[sender], _financial_institution))
+        //     revert NotKeyHolder({
+        //         financial_institution: _financial_institution,
+        //         key: sender 
+        //     });
         
         balances[sender] -= amount;
         balances[receiver] += amount;
