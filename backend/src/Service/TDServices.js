@@ -1,21 +1,12 @@
-const { Web3 } = require('web3'); //  web3.js has native ESM builds and (`import Web3 from 'web3'`)
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+import { Web3 } from 'web3'; //  web3.js has native ESM builds and (`import Web3 from 'web3'`)
+import { connectToEthereum, getContract } from "../Configuration/ConnectWeb3.js"
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Set up a connection to the Ethereum network
-const web3 = new Web3(new Web3.providers.HttpProvider('https://sepolia.infura.io/v3/d74d2369730944b38ae9ff5da6d8b654'));
+const web3 = connectToEthereum();
 
-// Read the contract address from the file system
-const deployedAddressPath = path.join(__dirname, "..", "..", "contract", 'TDTokenAddress.bin');
-const deployedAddress = fs.readFileSync(deployedAddressPath, 'utf8');
-
-console.log("Interact with contract address: " + deployedAddress);
-
-// Create a new contract object using the ABI and bytecode
-const abi = require('../../contract/TDTokenAbi.json');
-const myContract = new web3.eth.Contract(abi, deployedAddress);
-myContract.handleRevert = true;
+const myContract = getContract();
 
 // Creating a signing account from a private key
 const signer = web3.eth.accounts.privateKeyToAccount(
@@ -68,7 +59,7 @@ async function mint(key, value) {
 
 async function balances(key) {
     const balance = await myContract.methods.balances(key).call();
-    // console.log(`${key} balance: ` + balance);
+    console.log(`${key} balance: ` + balance);
     return balance;
 }
 
@@ -111,4 +102,4 @@ async function send(financial_institution, sender, receiver, amount) {
 	}
 }
 
-module.exports = { mint, balances, authorize, allowed_ifs, bind_key, key_holder, send };
+export { mint, balances, authorize, allowed_ifs, bind_key, key_holder, send };

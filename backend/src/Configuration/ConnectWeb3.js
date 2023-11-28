@@ -3,12 +3,15 @@ import fs from 'fs'
 import path from 'path'
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Set up a connection to the Ethereum network
 export function connectToEthereum(){
-    return new Web3(new Web3.providers.HttpProvider('https://sepolia.infura.io/v3/d74d2369730944b38ae9ff5da6d8b654'));
+    return new Web3(new Web3.providers.HttpProvider(`https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`));
 }
 
+// Select contract to interact
 export function getContract(){
     const web3 = connectToEthereum();
     const __filename = fileURLToPath(import.meta.url);
