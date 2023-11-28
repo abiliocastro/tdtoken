@@ -56,10 +56,16 @@ contract TDToken {
         key_holder[_key] = _financial_institution;
     }
 
+    // Check if user key is binded with financial_institution
+    function check_key(string memory _financial_institution, string memory _key) public view returns (bool) {
+        require(allowed_ifs[_financial_institution]);
+        return equals(key_holder[_key], _financial_institution);
+    }
+
     // Sends an amount of existing coins
     // from any caller to an address
     function send(string memory _financial_institution, string memory sender, string memory receiver, uint amount) public {
-        // require(allowed_ifs[_financial_institution]);
+        require(allowed_ifs[_financial_institution]);
         // if(amount > balances[sender])
         //     revert InsufficientBalance({
         //         requested: amount,

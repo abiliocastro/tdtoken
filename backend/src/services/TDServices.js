@@ -22,6 +22,7 @@ const signer = web3.eth.accounts.privateKeyToAccount(
     '0x' + process.env.SIGNER_PRIVATE_KEY,
 );
 
+// Support functions
 function getTxForMethod(method_abi) {
     return {
         from: signer.address,
@@ -36,39 +37,6 @@ async function estimateTxGas(tx, method) {
     const gas_estimate = await web3.eth.estimateGas(tx);
     console.log(`Estimated ${method} tx gas usage: ` + gas_estimate);
     return gas_estimate;
-}
-
-async function mint(key, value) {
-	try {
-        const method_abi = myContract.methods.mint(key, value).encodeABI();
-        await sendMethodTransaction(method_abi, "mint");
-	} catch (error) {
-		console.error(error);
-	}
-}
-
-async function authorize(financial_institution) {
-	try {
-        const method_abi = myContract.methods.authorize(financial_institution).encodeABI();
-        
-        const tx = getTxForMethod(method_abi)
-        tx.gas = await estimateTxGas(tx, "authorize")
-        
-        const signedTx = await web3.eth.accounts.signTransaction(tx, signer.privateKey);
-        console.log("Raw transaction data: " + (signedTx).rawTransaction);
-      
-        // Sending the transaction to the network
-        const receipt = await web3.eth
-            .sendSignedTransaction(signedTx.rawTransaction)
-            .once("transactionHash", (txhash) => {
-            console.log(`Mining transaction ...`);
-            console.log(`https://sepolia.etherscan.io/tx/${txhash}`);
-            });
-        // The transaction is now on chain!
-        console.log(`Mined in block ${receipt.blockNumber}`);
-	} catch (error) {
-		console.error(error);
-	}
 }
 
 async function sendMethodTransaction(method_abi, method_name) {
@@ -89,15 +57,52 @@ async function sendMethodTransaction(method_abi, method_name) {
     console.log(`Mined in block ${receipt.blockNumber}`);
 }
 
-async function send(financial_institution, sender, receiver, amount) {
+async function sendMethodTransactionResult(method_abi, method_name) {
+    const tx = getTxForMethod(method_abi)
+    tx.gas = await estimateTxGas(tx, method_name)
+    
+    const signedTx = await web3.eth.accounts.signTransaction(tx, signer.privateKey);
+    console.log("Raw transaction data: " + (signedTx).rawTransaction);
+    
+    // Sending the transaction to the network
+    const result = await web3.eth
+        .sendSignedTransaction(signedTx.rawTransaction)
+        .once("transactionHash", (txhash) => {
+        console.log(`Mining transaction ...`);
+        console.log(`https://sepolia.etherscan.io/tx/${txhash}`);
+        });
+    return result;
+}
+
+// Contract methods
+async function mint(key, value) {
 	try {
-        const method_abi = myContract.methods.send(financial_institution, sender, receiver, amount).encodeABI();
-        sendMethodTransaction(method_abi, "send")
+        const method_abi = myContract.methods.mint(key, value).encodeABI();
+        await sendMethodTransaction(method_abi, "mint");
 	} catch (error) {
-		decodedError = web3.eth.abi.decodeParameter('string', error.data);
-		//console.error(error);
-        console.log("Error: " + decodedError);
+		console.error(error);
 	}
+}
+
+async function balances(key) {
+    const balance = await myContract.methods.balances(key).call();
+    console.log(`${key} balance: ` + balance);
+    return balance;
+}
+
+async function authorize(financial_institution) {
+	try {
+        const method_abi = myContract.methods.authorize(financial_institution).encodeABI();
+        await sendMethodTransaction(method_abi, "authorize");
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+async function allowed_ifs(financial_institution) {
+    const result = await myContract.methods.allowed_ifs(financial_institution).call();
+	console.log(`${financial_institution} is allowed: ` + result);
+    return result;
 }
 
 async function bind_key(financial_institution, key) {
@@ -111,25 +116,19 @@ async function bind_key(financial_institution, key) {
 	}
 }
 
-async function balances(key) {
-    const balance = await myContract.methods.balances(key).call();
-	console.log(`${key} balance: ` + balance);
-    return balance;
+async function check_key(financial_institution, key) {
+	return myContract.methods.check_key(financial_institution, key).call();
 }
 
-async function allowed_ifs(financial_institution) {
-    const result = await myContract.methods.allowed_ifs(financial_institution).call();
-	console.log(`${financial_institution} is allowed: ` + result);
-    return result;
+async function send(financial_institution, sender, receiver, amount) {
+	try {
+        const method_abi = myContract.methods.send(financial_institution, sender, receiver, amount).encodeABI();
+        sendMethodTransaction(method_abi, "send")
+	} catch (error) {
+		decodedError = web3.eth.abi.decodeParameter('string', error.data);
+		//console.error(error);
+        console.log("Error: " + decodedError);
+	}
 }
 
-const lb = "LizardBroker";
-const ac = "AbilioCastro";
-//authorize("OtherBroker");
-// send(lb, lb, ac, 10000)
-// bind_key(lb, ac)
-// bind_key(lb, "LeandroBeserra");
-// allowed_ifs("OtherBroker")
-// balances(lb);
-
-module.exports = { balances, allowed_ifs, mint };
+module.exports = { mint, balances, authorize, allowed_ifs, bind_key, check_key, send };
