@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Server for Sepolia communication",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "compile": "node scripts/compileContract.js",
     "deploy": "node scripts/deployContract.js",
@@ -13,6 +14,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "json-bigint": "^1.0.0",
     "solc": "^0.8.4",
     "web3": "^4.2.2"
   },
