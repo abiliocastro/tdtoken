@@ -25,6 +25,10 @@ account.post('/user', (request, response) => {
     userController.handleUser(request, response)
 })
 
+account.post('/user/find', (request, response) => {
+    userController.getUser(request, response)
+})
+
 account.get('/balance/:key', (request, response) => {
     getBalanceController.handle(request, response)
 })

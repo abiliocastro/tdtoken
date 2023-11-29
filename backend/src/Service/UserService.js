@@ -1,7 +1,11 @@
-import insertUserInMongo from "../Repository/UserRepository.js";
+import { insertUserInMongo, findUser } from "../Repository/UserRepository.js";
 
 async function saveUser(user) {
   return insertUserInMongo(user);
 }
 
-export default saveUser;
+async function searchByUser(user) {
+  return findUser(user);
+}
+
+export { saveUser, searchByUser };
