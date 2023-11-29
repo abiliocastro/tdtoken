@@ -2,7 +2,8 @@ import { Web3 } from 'web3'; //  web3.js has native ESM builds and (`import Web3
 import { ethers } from 'ethers';
 import { Eip838ExecutionError } from 'web3';
 import { decodeContractErrorData } from 'web3-eth-abi';
-import { connectToEthereum, getContract } from "../Configuration/ConnectWeb3.js"
+import { connectToEthereum, getContract } from  '../Configuration/ConnectWeb3.js';
+import { KeyAlreadyBindedError } from '../Exceptions/KeyAlreadyBindedError.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -50,6 +51,7 @@ async function sendMethodTransaction(method_abi, method_name) {
         });
 }
 
+// Error handle
 function parseInnerError(e, contract) {
   if (e?.innerError?.errorSignature) {
     return e.innerError;
@@ -69,9 +71,12 @@ function parseInnerError(e, contract) {
 function bindKeyErrorHandle(error, contract) {
     const innerError = parseInnerError(error, contract);
     if (innerError.errorName === 'KeyAlreadyBinded') {
-        console.log(`Financial institution: ${innerError.errorArgs[0]} cannot bind key: ${innerError.errorArgs[1]} because it is already binded!`);
+        const errorMessage = `Financial institution: ${innerError.errorArgs[0]} cannot bind key: ${innerError.errorArgs[1]} because it is already binded!`;
+        console.log(errorMessage);
+        throw new KeyAlreadyBindedError(errorMessage);
     } else {
         console.log("Unknown error:", error);
+        throw error;
     }
 }
 

@@ -1,6 +1,6 @@
 import { GetBalanceService } from "../Service/GetBalanceService.js";
 
-export class GetBalanceController{
+export class GetBalanceController {
     async handle(request, response){
         const { key } = request.params
 

@@ -1,4 +1,5 @@
 import { balances, mint, authorize, allowed_ifs, bind_key, key_holder, send } from '../src/Service/TDServices.js';
+import {KeyAlreadyBindedError } from '../src/Exceptions/KeyAlreadyBindedError.js';
 const timeout = 60000;
 
 // First: TD gives 250000 TDTokens for the LizardBroker
@@ -24,7 +25,7 @@ test('LizardBroker should bind LizardBroker key', async () => {
   const lb = "LizardBroker";
   await bind_key(lb, lb);
   return key_holder(lb).then(result => {
-    expect(result).toBe(lb);
+    expect(result).to(lb);
   });
 }, timeout);
 
@@ -37,4 +38,12 @@ test('LizardBroker should send 10000 TDTokens to AbilioCastro', async () => {
   const lbBalance = await balances(lb);
   expect(acBalance).toBe(10000n);
   expect(lbBalance).toBe(240000n);
+}, timeout);
+
+// Fifth:
+test('Should thrown KeyAlreadyBindedError', async () => {
+  const lb = "LizardBroker";
+  await expect(bind_key(lb, lb))
+  .rejects
+  .toThrow(KeyAlreadyBindedError)
 }, timeout);
