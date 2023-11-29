@@ -8,13 +8,14 @@
     "start": "node index.js",
     "compile": "node scripts/compileContract.js",
     "deploy": "node scripts/deployContract.js",
-    "test": "jest",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "test:debug": "jest --detectOpenHandles"
   },
   "author": "Abilio Castro",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.3.1",
+    "ethers": "^6.9.0",
     "express": "^4.18.2",
     "json-bigint": "^1.0.0",
     "solc": "^0.8.4",

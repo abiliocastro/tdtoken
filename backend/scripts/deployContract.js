@@ -1,12 +1,18 @@
 // For simplicity we use `web3` package here. However, if you are concerned with the size,
 //	you may import individual packages like 'web3-eth', 'web3-eth-contract' and 'web3-providers-http'.
-const { Web3 } = require('web3'); //  web3.js has native ESM builds and (`import Web3 from 'web3'`)
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+import { Web3 } from 'web3'; //  web3.js has native ESM builds and (`import Web3 from 'web3'`)
+import fs from 'fs';
+import path from 'path'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename); 
 
 // Set up a connection to the Ethereum network
-const web3 = new Web3(new Web3.providers.HttpProvider('https://sepolia.infura.io/v3/d74d2369730944b38ae9ff5da6d8b654'));
+const web3 = new Web3(new Web3.providers.HttpProvider(`https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`));
 web3.eth.Contract.handleRevert = true;
 
 async function deploy() {
@@ -14,8 +20,9 @@ async function deploy() {
     const bytecodePath = path.join(__dirname, "..", "contract", 'TDTokenBytecode.bin');
     const bytecode = fs.readFileSync(bytecodePath, 'utf8');
 
-    // Create a new contract object using the ABI and bytecode
-    const abi = require('../contract/TDTokenAbi.json');
+    // Create a new contract object using the ABI and 
+    const abiPathFile = path.join(__dirname, '..', 'contract', 'TDTokenAbi.json');
+    const abi = JSON.parse(fs.readFileSync(abiPathFile, 'utf-8'))
 
     // Creating a signing account from a private key
     const signer = web3.eth.accounts.privateKeyToAccount(

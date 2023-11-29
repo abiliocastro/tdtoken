@@ -1,4 +1,7 @@
 import { Web3 } from 'web3'; //  web3.js has native ESM builds and (`import Web3 from 'web3'`)
+import { ethers } from 'ethers';
+import { Eip838ExecutionError } from 'web3';
+import { decodeContractErrorData } from 'web3-eth-abi';
 import { connectToEthereum, getContract } from "../Configuration/ConnectWeb3.js"
 import dotenv from 'dotenv';
 dotenv.config();
@@ -39,12 +42,50 @@ async function sendMethodTransaction(method_abi, method_name) {
     console.log("Raw transaction data: " + (signedTx).rawTransaction);
     
     // Sending the transaction to the network
-    web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+    await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
         .then((receipt) => {
             console.log(`Transaction mined!`);
             console.log(`https://sepolia.etherscan.io/tx/${receipt.transactionHash}`);
             console.log(`Mined in block ${receipt.blockNumber}`);
         });
+}
+
+function parseInnerError(e, contract) {
+  if (e?.innerError?.errorSignature) {
+    return e.innerError;
+  }
+
+  if (!e.innerError) {
+    if (e?.data?.data.startsWith('0x')) {
+      e.innerError = new Eip838ExecutionError(e.data);
+    }
+  }
+  if (e?.innerError?.data?.startsWith('0x')) {
+    decodeContractErrorData(contract._errorsInterface, e.innerError);
+  }
+  return e.innerError;
+}
+
+function bindKeyErrorHandle(error, contract) {
+    const innerError = parseInnerError(error, contract);
+    if (innerError.errorName === 'KeyAlreadyBinded') {
+        console.log(`Financial institution: ${innerError.errorArgs[0]} cannot bind key: ${innerError.errorArgs[1]} because it is already binded!`);
+    } else {
+        console.log("Unknown error:", error);
+    }
+}
+
+function sendErrorHandle(error, contract) {
+    const innerError = parseInnerError(error, contract);
+    if (innerError.errorName === 'InsufficientBalance') {
+        console.log(`InsufficientBalance meu chapa!`);
+    }
+    else if(innerError.errorName === 'NotKeyHolder') {
+        console.log(`Not key holder mah!`);
+    } 
+    else {
+        console.log("Unknown error:", error);
+    }
 }
 
 // Contract methods
@@ -81,10 +122,9 @@ async function allowed_ifs(financial_institution) {
 async function bind_key(financial_institution, key) {
 	try {
         const method_abi = myContract.methods.bind_key(financial_institution, key).encodeABI();
-        sendMethodTransaction(method_abi, "bind_key")
+        await sendMethodTransaction(method_abi, "bind_key")
 	} catch (error) {
-        decodedError = web3.eth.abi.decodeParameter('string', error.data);
-        console.log("Error: " + decodedError);
+        bindKeyErrorHandle(error, myContract);
 	}
 }
 
@@ -95,10 +135,9 @@ async function key_holder(key) {
 async function send(financial_institution, sender, receiver, amount) {
 	try {
         const method_abi = myContract.methods.send(financial_institution, sender, receiver, amount).encodeABI();
-        sendMethodTransaction(method_abi, "send")
+        await sendMethodTransaction(method_abi, "send")
 	} catch (error) {
-		decodedError = web3.eth.abi.decodeParameter('string', error.data);
-        console.log("Error: " + decodedError);
+		sendErrorHandle(error, myContract);
 	}
 }
 

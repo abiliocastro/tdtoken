@@ -1,6 +1,11 @@
-const solc = require('solc');
-const path = require('path');
-const fs = require('fs');
+import solc from 'solc';
+import path from 'path';
+import fs from 'fs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);  
 
 const fileName = 'TDToken.sol';
 const contractName = 'TDToken';
