@@ -2,8 +2,16 @@ import { Router } from 'express';
 import { CreateAccountController } from '../Controller/CreateAccountController.js';
 import { GetBalanceController } from '../Controller/GetBalanceController.js';
 import { UserController } from '../Controller/UserController.js';
+import cors from 'cors';
 
 const account = Router();
+
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+account.use(cors(corsOptions))
 
 const createAccountController = new CreateAccountController();
 const getBalanceController = new GetBalanceController();
