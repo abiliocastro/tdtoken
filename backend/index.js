@@ -11,8 +11,8 @@ var corsOptions = {
   }
 
 app.use(express.json());
+accountRoutes.use(cors(corsOptions));
 app.use(accountRoutes);
-app.use(cors(corsOptions));
 
 app.listen(port, () => {
     console.log("Application running")
