@@ -1,27 +1,23 @@
-const { Web3 } = require('web3'); //  web3.js has native ESM builds and (`import Web3 from 'web3'`)
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+import { Web3 } from 'web3'; //  web3.js has native ESM builds and (`import Web3 from 'web3'`)
+import { ethers } from 'ethers';
+import { Eip838ExecutionError } from 'web3';
+import { decodeContractErrorData } from 'web3-eth-abi';
+import { connectToEthereum, getContract } from  '../Configuration/ConnectWeb3.js';
+import { KeyAlreadyBindedError } from '../Exceptions/KeyAlreadyBindedError.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Set up a connection to the Ethereum network
-const web3 = new Web3(new Web3.providers.HttpProvider('https://sepolia.infura.io/v3/d74d2369730944b38ae9ff5da6d8b654'));
+const web3 = connectToEthereum();
 
-// Read the contract address from the file system
-const deployedAddressPath = path.join(__dirname, "..", "..", "contract", 'TDTokenAddress.bin');
-const deployedAddress = fs.readFileSync(deployedAddressPath, 'utf8');
-
-console.log("Interact with contract address: " + deployedAddress);
-
-// Create a new contract object using the ABI and bytecode
-const abi = require('../../contract/TDTokenAbi.json');
-const myContract = new web3.eth.Contract(abi, deployedAddress);
-myContract.handleRevert = true;
+const myContract = getContract();
 
 // Creating a signing account from a private key
 const signer = web3.eth.accounts.privateKeyToAccount(
     '0x' + process.env.SIGNER_PRIVATE_KEY,
 );
 
+// Support functions
 function getTxForMethod(method_abi) {
     return {
         from: signer.address,
@@ -33,42 +29,10 @@ function getTxForMethod(method_abi) {
 }
 
 async function estimateTxGas(tx, method) {
-    const gas_estimate = await web3.eth.estimateGas(tx);
-    console.log(`Estimated ${method} tx gas usage: ` + gas_estimate);
-    return gas_estimate;
-}
-
-async function mint(key, value) {
-	try {
-        const method_abi = myContract.methods.mint(key, value).encodeABI();
-        await sendMethodTransaction(method_abi, "mint");
-	} catch (error) {
-		console.error(error);
-	}
-}
-
-async function authorize(financial_institution) {
-	try {
-        const method_abi = myContract.methods.authorize(financial_institution).encodeABI();
-        
-        const tx = getTxForMethod(method_abi)
-        tx.gas = await estimateTxGas(tx, "authorize")
-        
-        const signedTx = await web3.eth.accounts.signTransaction(tx, signer.privateKey);
-        console.log("Raw transaction data: " + (signedTx).rawTransaction);
-      
-        // Sending the transaction to the network
-        const receipt = await web3.eth
-            .sendSignedTransaction(signedTx.rawTransaction)
-            .once("transactionHash", (txhash) => {
-            console.log(`Mining transaction ...`);
-            console.log(`https://sepolia.etherscan.io/tx/${txhash}`);
-            });
-        // The transaction is now on chain!
-        console.log(`Mined in block ${receipt.blockNumber}`);
-	} catch (error) {
-		console.error(error);
-	}
+    return web3.eth.estimateGas(tx).then((gas_estimate) => {
+        // console.log(`Estimated ${method} tx gas usage: ` + gas_estimate);
+        return gas_estimate;
+    });
 }
 
 async function sendMethodTransaction(method_abi, method_name) {
@@ -79,42 +43,79 @@ async function sendMethodTransaction(method_abi, method_name) {
     console.log("Raw transaction data: " + (signedTx).rawTransaction);
     
     // Sending the transaction to the network
-    const receipt = await web3.eth
-        .sendSignedTransaction(signedTx.rawTransaction)
-        .once("transactionHash", (txhash) => {
-        console.log(`Mining transaction ...`);
-        console.log(`https://sepolia.etherscan.io/tx/${txhash}`);
+    await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+        .then((receipt) => {
+            console.log(`Transaction mined!`);
+            console.log(`https://sepolia.etherscan.io/tx/${receipt.transactionHash}`);
+            console.log(`Mined in block ${receipt.blockNumber}`);
         });
-    // The transaction is now on chain!
-    console.log(`Mined in block ${receipt.blockNumber}`);
 }
 
-async function send(financial_institution, sender, receiver, amount) {
-	try {
-        const method_abi = myContract.methods.send(financial_institution, sender, receiver, amount).encodeABI();
-        sendMethodTransaction(method_abi, "send")
-	} catch (error) {
-		decodedError = web3.eth.abi.decodeParameter('string', error.data);
-		//console.error(error);
-        console.log("Error: " + decodedError);
-	}
+// Error handle
+function parseInnerError(e, contract) {
+  if (e?.innerError?.errorSignature) {
+    return e.innerError;
+  }
+
+  if (!e.innerError) {
+    if (e?.data?.data.startsWith('0x')) {
+      e.innerError = new Eip838ExecutionError(e.data);
+    }
+  }
+  if (e?.innerError?.data?.startsWith('0x')) {
+    decodeContractErrorData(contract._errorsInterface, e.innerError);
+  }
+  return e.innerError;
 }
 
-async function bind_key(financial_institution, key) {
+function bindKeyErrorHandle(error, contract) {
+    const innerError = parseInnerError(error, contract);
+    if (innerError.errorName === 'KeyAlreadyBinded') {
+        const errorMessage = `Financial institution: ${innerError.errorArgs[0]} cannot bind key: ${innerError.errorArgs[1]} because it is already binded!`;
+        console.log(errorMessage);
+        throw new KeyAlreadyBindedError(errorMessage);
+    } else {
+        console.log("Unknown error:", error);
+        throw error;
+    }
+}
+
+function sendErrorHandle(error, contract) {
+    const innerError = parseInnerError(error, contract);
+    if (innerError.errorName === 'InsufficientBalance') {
+        console.log(`InsufficientBalance meu chapa!`);
+    }
+    else if(innerError.errorName === 'NotKeyHolder') {
+        console.log(`Not key holder mah!`);
+    } 
+    else {
+        console.log("Unknown error:", error);
+    }
+}
+
+// Contract methods
+async function mint(key, value) {
 	try {
-        const method_abi = myContract.methods.bind_key(financial_institution, key).encodeABI();
-        sendMethodTransaction(method_abi, "bind_key")
+        const method_abi = myContract.methods.mint(key, value).encodeABI();
+        await sendMethodTransaction(method_abi, "mint");
 	} catch (error) {
-        decodedError = web3.eth.abi.decodeParameter('string', error.data);
-		//console.error(error);
-        console.log("Error: " + decodedError);
+		console.error(error);
 	}
 }
 
 async function balances(key) {
     const balance = await myContract.methods.balances(key).call();
-	console.log(`${key} balance: ` + balance);
+    console.log(`${key} balance: ` + balance);
     return balance;
+}
+
+async function authorize(financial_institution) {
+	try {
+        const method_abi = myContract.methods.authorize(financial_institution).encodeABI();
+        await sendMethodTransaction(method_abi, "authorize");
+	} catch (error) {
+		console.error(error);
+	}
 }
 
 async function allowed_ifs(financial_institution) {
@@ -123,13 +124,26 @@ async function allowed_ifs(financial_institution) {
     return result;
 }
 
-const lb = "LizardBroker";
-const ac = "AbilioCastro";
-//authorize("OtherBroker");
-// send(lb, lb, ac, 10000)
-// bind_key(lb, ac)
-// bind_key(lb, "LeandroBeserra");
-// allowed_ifs("OtherBroker")
-// balances(lb);
+async function bind_key(financial_institution, key) {
+	try {
+        const method_abi = myContract.methods.bind_key(financial_institution, key).encodeABI();
+        await sendMethodTransaction(method_abi, "bind_key")
+	} catch (error) {
+        bindKeyErrorHandle(error, myContract);
+	}
+}
 
-module.exports = { balances, allowed_ifs, mint };
+async function key_holder(key) {
+	return await myContract.methods.key_holder(key).call();
+}
+
+async function send(financial_institution, sender, receiver, amount) {
+	try {
+        const method_abi = myContract.methods.send(financial_institution, sender, receiver, amount).encodeABI();
+        await sendMethodTransaction(method_abi, "send")
+	} catch (error) {
+		sendErrorHandle(error, myContract);
+	}
+}
+
+export { mint, balances, authorize, allowed_ifs, bind_key, key_holder, send };

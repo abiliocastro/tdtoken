@@ -1,17 +1,17 @@
-import { GetBallanceService } from "../Service/GetBallanceService.js";
+import { GetBalanceService } from "../Service/GetBalanceService.js";
 
-export class GetBallanceController{
+export class GetBalanceController {
     async handle(request, response){
-        const { walletHash } = request.params
+        const { key } = request.params
 
-        if(!walletHash){
+        if(!key){
             return response.status(400).json({
-                'message': "The Wallet Hash is mandatory"
+                'message': "The user key is mandatory"
             })
         }
 
-        const getBallanceService = new GetBallanceService()
-        const result = await getBallanceService.execute(walletHash)
+        const getBalanceService = new GetBalanceService()
+        const result = await getBalanceService.execute(key)
 
         if(result instanceof Error) {
             return response.status(400).json({
