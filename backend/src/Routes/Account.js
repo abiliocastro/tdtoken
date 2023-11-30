@@ -3,13 +3,9 @@ import { CreateAccountController } from '../Controller/CreateAccountController.j
 import { GetBalanceController } from '../Controller/GetBalanceController.js';
 import { UserController } from '../Controller/UserController.js';
 import cors from 'cors';
+import corsOptions from '../Configuration/CorsConfig.js';
 
 const account = Router();
-
-const corsOptions = {
-    origin: 'http://localhost:5173',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
 
 account.use(cors(corsOptions))
 
