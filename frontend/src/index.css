@@ -22,5 +22,7 @@ body, html {
     display: flex;
     flex-direction: column;
     background-color: #3629B7;
-
+    border: 4px solid black;
+    border-radius: 25px;
+    overflow: hidden;
 }
