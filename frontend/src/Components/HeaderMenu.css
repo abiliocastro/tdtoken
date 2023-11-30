@@ -1,0 +1,14 @@
+.header_container{
+    padding: 26px;
+}
+
+.header_container span{
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(251, 251, 251);
+}
+
+.header_container .react_icons{
+    height: 15px;
+    stroke-width: 2;
+}

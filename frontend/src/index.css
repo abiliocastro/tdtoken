@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    font-family: "Poppins", sans-serif; 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+    box-sizing: border-box; 
+}   
+
+body, html {
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    justify-content: center;
+}
+
+#root > div{
+    width: 100%;
+    max-width: 500px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #3629B7;
+
+}
