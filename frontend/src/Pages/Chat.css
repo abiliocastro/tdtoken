@@ -10,12 +10,17 @@
     display: none;
 }
 
+
 .message_container {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     padding: 30px 40px;
     overflow: scroll;
+}
+
+.message_profile {
+    background-color: red;
 }
 
 .message {
@@ -31,7 +36,7 @@
 .client {
     align-self: flex-start;
     color: white;
-    background-color: #75306c;
+    background-color: #339E33;
 }
 
 .assistent {

@@ -47,7 +47,7 @@ function Chat(){
             <div className='chat_container'>
                 <div className="message_container">
                     <div className='message assistent'>
-                        Olá, sou seu assistente aqui da Calango Bank e fico disponível para perguntar qualquer coisa sobre investimentos.
+                        Olá, sou seu assistente aqui da <span style={{color: '#339E33', fontWeight: '700'}}>Calango Bank</span> e fico disponível para perguntar qualquer coisa sobre investimentos.
                     </div>
                     {messageList}
 
@@ -62,15 +62,10 @@ function Chat(){
                 </div>
                 <div className='chat_bottom'>
                     <input ref={inputRef} type="text" placeholder='Pergunte-me qualquer coisa...'/>
-                    {/* <input ref={inputRef} value={currentMessage}  onChange={event => { setCurrentMessage(event.target.value) }} type="text" placeholder='Pergunte-me qualquer coisa...'/> */}
                     <button 
                         onClick={sendMessage}
-                        // onClick={() => {
-                        //     setMessageList(messageList => [...messageList, <Message key={messageList.length} message={currentMessage} type={'client'} />])
-                        //     getChatResponse(currentMessage)
-                        // }}
                     >
-                        <IconContext.Provider value={{ className: 'icon', color: '#75306c' }}>
+                        <IconContext.Provider value={{ className: 'icon', color: '#339E33' }}>
                             {< LuSendHorizonal />}
                         </IconContext.Provider> 
                     </button>

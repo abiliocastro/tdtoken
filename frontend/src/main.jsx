@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 // import App from './App.jsx'
 import SingIn from './Pages/SingIn.jsx'
-// import SingUp from './Pages/SingUp.jsx'
-import Menu from './Pages/Menu.jsx'
+import SingUp from './Pages/SingUp.jsx'
+import Main from './Pages/Main.jsx'
 import Chat from './Pages/Chat.jsx'
 import './index.css'
 
@@ -15,8 +15,12 @@ const router = createBrowserRouter([
     element: <SingIn />
   },
   {
-    path: '/menu',
-    element: <Menu />
+    path: '/createAccount',
+    element: <SingUp />
+  },
+  {
+    path: '/main',
+    element: <Main />
   },
   {
     path: '/chat',
