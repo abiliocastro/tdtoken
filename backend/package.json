@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
+    "debug": "node --inspect index.js",
     "compile": "node scripts/compileContract.js",
     "deploy": "node scripts/deployContract.js",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
@@ -20,6 +21,7 @@
     "express": "^4.18.2",
     "json-bigint": "^1.0.0",
     "mongodb": "^6.3.0",
+    "openai": "^4.20.1",
     "solc": "^0.8.4",
     "web3": "^4.2.2"
   },
