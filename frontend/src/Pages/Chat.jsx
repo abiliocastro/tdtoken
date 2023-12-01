@@ -9,23 +9,24 @@ import { LuSendHorizonal } from "react-icons/lu";
 
 function Chat(){
     const [messageList, setMessageList] = useState([]);
-    const [currentMessage, setCurrentMessage] = useState(['']);
+    const [waitingResponse, setWaitingResponse] = useState(false);
     const inputRef = useRef(null);
 
     // Type = client or assistent
     function addMessage(text,type){
-        // setMessageList(messageList.push(<Message key={messageList.length} message={text} type={type} />));
-        setMessageList([...messageList, <Message key={messageList.length} message={text} type={type} />]);
+        setMessageList(messageList => [...messageList, <Message key={messageList.length} message={text} type={type} />])
         console.log(messageList)
 
     }
 
     async function getChatResponse(text){
         try {
+            setWaitingResponse(true)
             const response = await api.post(`chat/question`, {
                 "message": text
             });
             const data = response.data;
+            setWaitingResponse(false)
             addMessage(data.response, 'assistent')
         } catch (error) {
             console.log(error)
@@ -36,10 +37,9 @@ function Chat(){
         let text = inputRef.current.value
         if(text){
             addMessage(text, 'client')
-            
             inputRef.current.value = ''
 
-            // getChatResponse(text)
+            getChatResponse(text)
         }
     }
 
@@ -51,17 +51,25 @@ function Chat(){
                         Olá, sou seu assistente aqui da Calango Bank e fico disponível para perguntar qualquer coisa sobre investimentos.
                     </div>
                     {messageList}
+
+                    {waitingResponse && 
+                        <div className='message assistent loading'>
+                            <span className='dot-one'>.</span>
+                            <span className='dot-two'>.</span>
+                            <span className='dot-three'>.</span>
+                        </div>
+                    }
+                    
                 </div>
                 <div className='chat_bottom'>
-                    <input value={currentMessage} onChange={event => { setCurrentMessage(event.target.value) }} type="text" placeholder='Pergunte-me qualquer coisa...'/>
+                    <input ref={inputRef} type="text" placeholder='Pergunte-me qualquer coisa...'/>
+                    {/* <input ref={inputRef} value={currentMessage}  onChange={event => { setCurrentMessage(event.target.value) }} type="text" placeholder='Pergunte-me qualquer coisa...'/> */}
                     <button 
-                        // onClick={sendMessage}
-                        onClick={async () => {
-                            let a = setMessageList([...messageList, <Message key={messageList.length} message={currentMessage} type={'client'} />])
-                            console.log(a)
-                            // await getChatResponse(currentMessage)
-
-                        }}
+                        onClick={sendMessage}
+                        // onClick={() => {
+                        //     setMessageList(messageList => [...messageList, <Message key={messageList.length} message={currentMessage} type={'client'} />])
+                        //     getChatResponse(currentMessage)
+                        // }}
                     >
                         <IconContext.Provider value={{ className: 'icon', color: '#75306c' }}>
                             {< LuSendHorizonal />}
