@@ -15,8 +15,6 @@ function Chat(){
     // Type = client or assistent
     function addMessage(text,type){
         setMessageList(messageList => [...messageList, <Message key={messageList.length} message={text} type={type} />])
-        console.log(messageList)
-
     }
 
     async function getChatResponse(text){
@@ -26,11 +24,12 @@ function Chat(){
                 "message": text
             });
             const data = response.data;
-            setWaitingResponse(false)
             addMessage(data.response, 'assistent')
         } catch (error) {
             console.log(error)
+            addMessage("Ocorreu algum erro durante a nossa comunicação! Por favor, envie a mensagem novamente.", 'assistent')
         }
+        setWaitingResponse(false)
     } 
 
     function sendMessage(){
