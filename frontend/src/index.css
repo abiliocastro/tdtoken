@@ -19,6 +19,7 @@ body, html {
     width: 100%;
     max-width: 500px;
     height: 100vh;
+    /* max-height: 780px; */
     display: flex;
     flex-direction: column;
     background-color: #3629B7;
