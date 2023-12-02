@@ -11,7 +11,9 @@ var sess = {
     resave: false,
     saveUninitialized: false,
     path: '/',
-    cookie: {}
+    cookie: {
+        sameSite: "none"
+    }
 }
   
 if (app.get('env') === 'production') {

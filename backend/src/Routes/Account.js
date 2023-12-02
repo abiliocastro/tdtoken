@@ -20,7 +20,7 @@ if (account.get('env') === 'production') {
     sess.cookie.secure = true // serve secure cookies
 }
 
-account.use(session(sess))
+// account.use(session(sess))
 account.use(cors(corsOptions))
 
 const createAccountController = new CreateAccountController();
