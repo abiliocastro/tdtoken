@@ -3,6 +3,9 @@ import accountRoutes from './src/Routes/Account.js'
 import chatRoutes from './src/Routes/Chat.js'
 import session from "express-session";
 
+const app = express()
+const defaultPort = 3000
+
 var sess = {
     secret: 'super secret my bro',
     resave: false,
@@ -15,9 +18,6 @@ if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
     sess.cookie.secure = true // serve secure cookies
 }
-
-const app = express()
-const defaultPort = 3000
 
 app.use(session(sess));
 app.use(express.json());
