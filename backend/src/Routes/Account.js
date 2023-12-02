@@ -15,8 +15,8 @@ var sess = {
     cookie: {}
 }
   
-if (app.get('env') === 'production') {
-    app.set('trust proxy', 1) // trust first proxy
+if (account.get('env') === 'production') {
+    account.set('trust proxy', 1) // trust first proxy
     sess.cookie.secure = true // serve secure cookies
 }
 

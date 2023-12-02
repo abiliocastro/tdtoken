@@ -32,6 +32,11 @@ export class UserController {
       const user = await searchByEmail(request.body.email);
       if(user){
         if(user.password === request.body.password) {
+          request.session.user = {
+            "email": user.email,
+            "name": user.name,
+            "key": user.key
+          }
           return response.status(200).json({
             "message": "success"
           });
