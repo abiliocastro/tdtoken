@@ -4,26 +4,39 @@ import api from '../Api.js'
 import HeaderMenu from '../Components/HeaderMenu';
 import logo from '../assets/logo.svg'
 
+import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
+
 function SingIn() {
+    const navigate = useNavigate();
 
     const userField = useRef(null);
     const passwordField = useRef(null);
 
-    async function authentication(){
+    function authentication(){
         const user = userField.current.value;
         const password = passwordField.current.value;
 
         if(user && password){
-            console.log(user)
-            console.log(password)
-            const response = await api.post('/login', {
-                "email": user,
-                "password": password
-            },
-            { 
-                withCredentials: true
-            })
-            console.log(response)
+            try {
+                api.post('/login', {
+                    "email": user,
+                    "password": password
+                },
+                { 
+                    withCredentials: true
+                }
+                ).then(response => {
+                    console.log(response.data.message)
+                    // Cookies.get("")
+
+                    if(response.data.message == 'success'){
+                        navigate('/dashboard');
+                    }
+                })
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -49,7 +62,7 @@ function SingIn() {
                 </div>
 
                 <div className='create_account_text'>
-                    <a href="/createAccount">
+                    <a onClick={() => { navigate('/createAccount'); }}>
                         Não tem uma conta? <span style={{fontWeight: 'bold'}}>Cadastrar</span>
                     </a>
                 </div>
