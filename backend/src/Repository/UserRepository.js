@@ -28,9 +28,24 @@ async function findUser(user) {
   } catch (error) {
     throw error;  
   } finally {
-    // Ensures that the client will close when you finish/error
     await client.close();
   }
 } 
 
-export { insertUserInMongo, findUser };
+async function findByEmail(email) {
+  try {
+    await client.connect();
+    const myDB = client.db("tdtoken");
+    const myColl = myDB.collection("Users");
+    const result = await myColl.findOne({
+      "email": email
+    });
+    return result;  
+  } catch (error) {
+    throw error; 
+  } finally {
+    await client.close();
+  }
+}
+
+export { insertUserInMongo, findUser, findByEmail };
