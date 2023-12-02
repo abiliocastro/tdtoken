@@ -28,7 +28,7 @@ function SingIn() {
                 }
                 ).then(response => {
                     console.log(response.data.message)
-                    // Cookies.get("")
+                    console.log(Cookies.get("1P_JAR"))
 
                     if(response.data.message == 'success'){
                         navigate('/dashboard');
