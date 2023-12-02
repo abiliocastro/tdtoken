@@ -21,7 +21,6 @@ if (account.get('env') === 'production') {
 }
 
 account.use(session(sess))
-
 account.use(cors(corsOptions))
 
 const createAccountController = new CreateAccountController();
