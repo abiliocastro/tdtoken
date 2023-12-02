@@ -19,6 +19,9 @@ function SingIn() {
             const response = await api.post('/login', {
                 "email": user,
                 "password": password
+            },
+            { 
+                withCredentials: true
             })
             console.log(response)
         }
