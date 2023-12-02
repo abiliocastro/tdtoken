@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 // import App from './App.jsx'
 import SingIn from './Pages/SingIn.jsx'
 import SingUp from './Pages/SingUp.jsx'
-import Main from './Pages/Main.jsx'
+import Dashboard from './Pages/Dashboard.jsx'
 import Chat from './Pages/Chat.jsx'
 import './index.css'
 
@@ -19,8 +19,8 @@ const router = createBrowserRouter([
     element: <SingUp />
   },
   {
-    path: '/main',
-    element: <Main />
+    path: '/dashboard',
+    element: <Dashboard />
   },
   {
     path: '/chat',

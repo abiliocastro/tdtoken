@@ -1,4 +1,3 @@
-import './SingIn.css'
 import HeaderMenu from '../Components/HeaderMenu';
 import logo from '../assets/logo.svg'
 

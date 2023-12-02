@@ -1,5 +1,5 @@
-import './SingUp.css'
-import './Main.css'
+// import './SingUp.css'
+import './Dashboard.css'
 import HeaderMenu from '../Components/HeaderMenu';
 import MenuItem from '../Components/MenuItem';
 import PanelBalances from '../Components/PanelBalances';
@@ -14,12 +14,13 @@ function Main() {
                 <PanelBalances />
                 <div style={{'display': 'flex', 'justifyContent': 'center'}}>
                     <div className='grid_menu_container'>
-                        <MenuItem icon={ FaWallet } color="#339E33" text="Comprar TDTokens"/>
-                        <MenuItem icon={ FaMoneyBillTransfer } color="#339E33" text="Transferir"/>
+                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
+                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
+                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
+                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
+                        {/* <MenuItem icon={ FaMoneyBillTransfer } color="#339E33" text="Transferir"/>
                         <MenuItem icon={ FaWallet } color="#339E33" text="Transferir"/>
-                        <MenuItem icon={ FaMoneyBillTransfer } color="#339E33" text="Transferir"/>
-                        <MenuItem icon={ FaMoneyBillTransfer } color="#339E33" text="Transferir"/>
-                        <MenuItem icon={ FaMoneyBillTransfer } color="#339E33" text="Transferir"/>
+                        <MenuItem icon={ FaMoneyBillTransfer } color="#339E33" text="Transferir"/> */}
                     </div>
                 </div>
             </div>
