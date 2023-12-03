@@ -14,6 +14,10 @@ import api from '../Api.js'
 function Main() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [balance, setBalance] = useState(null);
+    const [loadingBalance, setLoadingBalance] = useState(true);
+    const [balanceToReal, setBalanceToReal] = useState(null);
+    const [loadingBalanceToReal, setLoadingBalanceToReal] = useState(true);
 
     useEffect(() => {
         api.post('/user/load', {
@@ -27,6 +31,21 @@ function Main() {
                 let user = response.data;
                 setUser(user);
                 setLoading(false);
+
+                api.get('/balance/'+user.email,
+                { 
+                    withCredentials: true
+                }
+                ).then(balanceResponse => {
+                    const balance = balanceResponse.data.balance;
+                    setBalance(balance)
+                    setLoadingBalance(false)
+
+                    const TD_TOKEN_CURRENT_VALUE = 0.15
+                    setBalanceToReal((balance * TD_TOKEN_CURRENT_VALUE).toFixed(2))
+                    setLoadingBalanceToReal(false)
+
+                })
             }
         });
     }, []);
@@ -45,8 +64,14 @@ function Main() {
                     </div>
                     <div className='left'>
                         <span className='title'>TDTokens</span>
-                        <h1>10000</h1>
-                        <span className='subtitle'>R$ 1.000,00</span>
+                        <h1>
+                            { loadingBalance && <Skeleton /> }
+                            { balance && <CurrencyFormat value={balance} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={''} /> }
+                        </h1>
+                        <span className='subtitle'>
+                            { loadingBalanceToReal && <Skeleton /> }
+                            { balanceToReal && <CurrencyFormat value={balanceToReal} displayType={'text'} isNumericString={true} thousandSeparator={'.'} decimalSeparator={','} prefix={'R$ '}/> }
+                        </span>
                     </div>
                 </div>
                 <div style={{'display': 'flex', 'justifyContent': 'center'}}>
