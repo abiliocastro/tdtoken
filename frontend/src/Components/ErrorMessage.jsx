@@ -1,8 +1,11 @@
+import './ErrorMessage.css'
 
-function ErrorMessage(){
+
+function ErrorMessage(props){
     return (
-        <div>
-            
+        <div className='error_container'>
+            <span>{props.message}</span>
+            <button>X</button>
         </div>
     )
 }

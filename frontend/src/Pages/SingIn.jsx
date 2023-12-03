@@ -1,7 +1,8 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import api from '../Api.js'
 
 import HeaderMenu from '../Components/HeaderMenu';
+import ErrorMessage from '../Components/ErrorMessage.jsx';
 import logo from '../assets/logo.svg'
 
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 function SingIn() {
     const navigate = useNavigate();
 
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const userField = useRef(null);
     const passwordField = useRef(null);
 
@@ -22,9 +25,7 @@ function SingIn() {
                     "email": user,
                     "password": password
                 },
-                { 
-                    withCredentials: true
-                }
+                { withCredentials: true }
                 ).then(response => {
                     if(response.data.message == 'success'){
                         localStorage.setItem("userId", user);
@@ -34,11 +35,16 @@ function SingIn() {
             } catch (error) {
                 console.log(error)
             }
+        }else{
+            setShowErrorMessage(true)
+            setErrorMessage("Preencha os campos de usuário e senha!")
         }
     }
 
     return (
         <div>
+            { showErrorMessage && <ErrorMessage message={errorMessage}/> }
+            
             <HeaderMenu text='Entrar' />
             <div className='content_container'>
                 <div style={{alignSelf: 'left'}}>
