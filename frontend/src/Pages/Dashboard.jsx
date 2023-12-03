@@ -3,7 +3,6 @@ import './Dashboard.css'
 import { useEffect, useState } from "react"
 import HeaderMenu from '../Components/HeaderMenu';
 import MenuItem from '../Components/MenuItem';
-import PanelBalances from '../Components/PanelBalances';
 import CurrencyFormat from 'react-currency-format';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
