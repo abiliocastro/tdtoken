@@ -6,5 +6,6 @@
 }
 
 .transactions_container{
-    margin-top: 22px;
+    flex-grow: 1;
+    margin-top: 15px;
 }

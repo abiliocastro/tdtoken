@@ -49,13 +49,13 @@ function SingIn() {
                 </div>
 
                 <div style={{'margin-top': '45px'}}>
-                    <input type="text" ref={userField} placeholder="Email/Usuário"/>
-                    <input type="password" ref={passwordField} placeholder="Senha"/>
+                    <input className="defaultInput" type="text" ref={userField} placeholder="Email"/>
+                    <input className="defaultInput" type="password" ref={passwordField} placeholder="Senha"/>
                     <p className='forget_password_option'>
                         <a href="http://">Esqueceu a senha ?</a>
                     </p>
 
-                    <button style={{'margin-top': '68px'}} onClick={authentication}>Entrar</button>
+                    <button className='button_primary' style={{'margin-top': '68px'}} onClick={authentication}>Entrar</button>
                 </div>
 
                 <div className='create_account_text'>

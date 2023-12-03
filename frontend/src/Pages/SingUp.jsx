@@ -14,11 +14,11 @@ function SingUp() {
                 </div>
 
                 <div style={{'margin-top': '45px'}}>
-                    <input type="text" placeholder="Nome Completo"/>
-                    <input type="text" placeholder="Email/Usuário"/>
-                    <input type="text" placeholder="CPF"/>
+                    <input className="defaultInput" type="text" placeholder="Nome Completo"/>
+                    <input className="defaultInput" type="text" placeholder="Email"/>
+                    <input className="defaultInput" type="text" placeholder="CPF"/>
 
-                    <button style={{'margin-top': '68px'}}>Continuar</button>
+                    <button className='button_primary' style={{'margin-top': '68px'}}>Continuar</button>
                 </div>
 
                 {/* <div style={{'display': 'flex', 'justifyContent': 'center', 'margin': '25px 0px 50px 0px'}}>
