@@ -7,6 +7,7 @@ import Chat from './Pages/Chat.jsx'
 import BuyTDTokens from './Pages/BuyTDTokens.jsx'
 import SendTDTokens from './Pages/SendTDTokens .jsx'
 import ManageTDTokens from './Pages/ManageTDTokens.jsx'
+import PrivateRoute from './Components/PrivateRoute.jsx'
 import './index.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <Dashboard />
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    )
   },
   {
     path: '/buyTokens',
