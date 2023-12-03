@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 
-const host = import.meta.env.PROD ? 'https://calangobank.onrender.com' :  'http://localhost:3000'
+const host = import.meta.env.PROD ? 'https://tdtoken-backend.onrender.com' :  'http://localhost:3000'
 
 export default axios.create({
     baseURL: host
