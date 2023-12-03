@@ -25,8 +25,7 @@ function SingIn() {
                     "email": user,
                     "password": password
                 },
-                { withCredentials: true }
-                ).then(response => {
+                { withCredentials: true }).then(response => {
                     if(response.data.message == 'success'){
                         localStorage.setItem("userId", user);
                         navigate('/dashboard');

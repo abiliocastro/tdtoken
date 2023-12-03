@@ -81,7 +81,7 @@ function SingUp() {
                     <input className="defaultInput" ref={passwordField} type="password" placeholder="Crie sua senha"/>
                     <input className="defaultInput" ref={confirmPasswordField} type="password" placeholder="Confirme sua senha"/>
 
-                    <button className='button_primary' onClick={createAccount} style={{'margin-top': '68px'}}>Continuar</button>
+                    <button className='button_primary' onClick={createAccount} style={{'margin-top': '68px'}}>Confirmar Senha</button>
                 </div>
 
                 <div className='create_account_text'>
