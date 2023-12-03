@@ -4,6 +4,7 @@ import { Eip838ExecutionError } from 'web3';
 import { decodeContractErrorData } from 'web3-eth-abi';
 import { connectToEthereum, getContract } from  '../Configuration/ConnectWeb3.js';
 import { KeyAlreadyBindedError } from '../Exceptions/KeyAlreadyBindedError.js';
+import { NotKeyHolderError } from '../Exceptions/NotKeyHolderError.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -84,12 +85,16 @@ function sendErrorHandle(error, contract) {
     const innerError = parseInnerError(error, contract);
     if (innerError.errorName === 'InsufficientBalance') {
         console.log(`InsufficientBalance meu chapa!`);
+        throw innerError;
     }
     else if(innerError.errorName === 'NotKeyHolder') {
-        console.log(`Not key holder mah!`);
+        const errorMessage = `Financial institution: ${innerError.errorArgs[0]} is not keyholder of key: ${innerError.errorArgs[1]}!`;
+        console.log(errorMessage);
+        throw new NotKeyHolderError(errorMessage);
     } 
     else {
         console.log("Unknown error:", error);
+        throw innerError;
     }
 }
 
@@ -142,7 +147,7 @@ async function send(financial_institution, sender, receiver, amount) {
         const method_abi = myContract.methods.send(financial_institution, sender, receiver, amount).encodeABI();
         await sendMethodTransaction(method_abi, "send")
 	} catch (error) {
-		sendErrorHandle(error, myContract);
+        sendErrorHandle(error, myContract);
 	}
 }
 
