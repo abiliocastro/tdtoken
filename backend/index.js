@@ -12,7 +12,7 @@ var sess = {
     saveUninitialized: false,
     path: '/',
     cookie: {
-        sameSite: "none",
+        httpOnly: true,
         maxAge: 1000 * 3600 * 24
     }
 }

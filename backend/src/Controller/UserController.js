@@ -1,4 +1,4 @@
-import { saveUser, searchByUser, searchByEmail } from "../Service/UserService.js";
+import { saveUser, searchByUser, searchByEmail, searchToLoad } from "../Service/UserService.js";
 
 export class UserController {
   async handleUser(request, response) {
@@ -52,6 +52,19 @@ export class UserController {
     } catch (error) {
       return response.status(400).json({
         "message": "Error when try to login!",
+        "error": error
+      })  
+    }
+  }
+
+  async loadUserData(request, response) {
+    try {
+      // console.log("User in session: ", request.session.user );
+      const result = await searchToLoad(request.body.email);
+      return response.status(200).json(result);
+    } catch (error) {
+      return response.status(400).json({
+        "message": "Error when load user data",
         "error": error
       })  
     }

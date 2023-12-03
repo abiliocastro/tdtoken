@@ -2,25 +2,12 @@ import { Router } from 'express';
 import { CreateAccountController } from '../Controller/CreateAccountController.js';
 import { GetBalanceController } from '../Controller/GetBalanceController.js';
 import { UserController } from '../Controller/UserController.js';
+import authenticated from '../Configuration/Auth.js';
 import cors from 'cors';
 import corsOptions from '../Configuration/CorsConfig.js';
-import session from "express-session";
 
 const account = Router();
 
-var sess = {
-    secret: 'super secret my bro',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {}
-}
-  
-if (account.get('env') === 'production') {
-    account.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
-}
-
-// account.use(session(sess))
 account.use(cors(corsOptions))
 
 const createAccountController = new CreateAccountController();
@@ -43,7 +30,11 @@ account.post('/user/find', (request, response) => {
     userController.getUser(request, response)
 })
 
-account.get('/balance/:key', (request, response) => {
+account.post('/user/load', authenticated, (request, response) => {
+    userController.loadUserData(request, response)
+})
+
+account.get('/balance/:key', authenticated, (request, response) => {
     getBalanceController.handle(request, response)
 })
 
