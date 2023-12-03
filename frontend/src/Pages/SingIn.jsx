@@ -5,7 +5,6 @@ import HeaderMenu from '../Components/HeaderMenu';
 import logo from '../assets/logo.svg'
 
 import { useNavigate } from 'react-router-dom';
-import Cookies from "js-cookie";
 
 function SingIn() {
     const navigate = useNavigate();
@@ -27,10 +26,8 @@ function SingIn() {
                     withCredentials: true
                 }
                 ).then(response => {
-                    console.log(response.data.message)
-                    console.log(Cookies.get("1P_JAR"))
-
                     if(response.data.message == 'success'){
+                        localStorage.setItem("userId", user);
                         navigate('/dashboard');
                     }
                 })
