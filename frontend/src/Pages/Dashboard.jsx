@@ -1,13 +1,34 @@
 // import './SingUp.css'
 import './Dashboard.css'
+import { useEffect, useState } from "react"
 import HeaderMenu from '../Components/HeaderMenu';
 import MenuItem from '../Components/MenuItem';
 import PanelBalances from '../Components/PanelBalances';
 
 import { FaWallet } from "react-icons/fa6";
 import TransactionItem from '../Components/TransactionItem';
+import api from '../Api.js'
 
 function Main() {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        api.post('/user/load', {
+            "email": localStorage.getItem("userId")
+        },
+        { 
+            withCredentials: true
+        }
+        ).then(response => {
+            if(response.status == 200){
+                let user = response.data;
+                setUser(user);
+                setLoading(false);
+            }
+        });
+    }, []);
+    
     return (
         <div>
             <HeaderMenu />
@@ -24,10 +45,12 @@ function Main() {
                 <div className='transactions_container'>
                     <span className='title'>Últimas movimentações</span>
                     <hr />
-                    <TransactionItem date='02/12/2023' value={15.98} sender="Escolinha RN ME"/>
-                    <TransactionItem date='02/12/2023' value={12.80} sender="Maria Tereza"/>
-                    <TransactionItem date='01/12/2023' value={-57.10} sender="Toninho Tornado"/>
-                    <TransactionItem date='01/12/2023' value={17.50} sender="Chico Mariola"/>
+                    { loading && ("Carregando Transações") }
+                    { user && 
+                        user.transactions.map((transaction, index) => {
+                            return <TransactionItem key={index} date={transaction.date} value={transaction.value} sender={transaction.sender} /> 
+                        })
+                    }
                 </div>
             </div>
         </div>
