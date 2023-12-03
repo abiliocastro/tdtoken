@@ -12,14 +12,15 @@ var sess = {
     saveUninitialized: false,
     path: '/',
     cookie: {
-        sameSite: "none",
+        httpOnly: true,
         maxAge: 1000 * 3600 * 24
     }
 }
   
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
+    sess.cookie.sameSite = 'none';
+    sess.cookie.secure = true; // serve secure cookies
 }
 
 app.use(session(sess));
