@@ -1,7 +1,11 @@
-import { send } from "./TDServices";
+import { send } from "./TDServices.js";
 
 async function sendTransaction(sender, receiver, amount) {
-  send('calangobank@calangobank.com', sender, receiver, amount);
+  try {
+    await send('calangobank@calangobank.com', sender, receiver, amount);  
+  } catch (error) {
+    throw error;
+  }
 }
 
 export default sendTransaction;
