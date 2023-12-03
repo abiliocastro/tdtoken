@@ -67,4 +67,22 @@ async function findToLoad(email) {
   }
 }
 
-export { insertUserInMongo, findUser, findByEmail, findToLoad };
+async function findUserRealBalance(email) {
+  try {
+    await client.connect();
+    const myDB = client.db("tdtoken");
+    const myColl = myDB.collection("Users");
+    const user = await myColl.findOne({
+      "email": email
+    }, {
+      projection: { realBalance: 1 }
+    });
+    return user.realBalance;  
+  } catch (error) {
+    throw error; 
+  } finally {
+    await client.close();
+  }
+}
+
+export { insertUserInMongo, findUser, findByEmail, findToLoad, findUserRealBalance };

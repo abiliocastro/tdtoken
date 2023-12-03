@@ -58,7 +58,11 @@ account.get('/balance/:key', authenticated, (request, response) => {
 });
 
 account.post('/sendTransaction', authenticated, (request, response) => {
-    transactionController.handle(request, response)
+    transactionController.handleSendTransaction(request, response)
+});
+
+account.post('/buyTokens', authenticated, (request, response) => {
+    transactionController.handleBuyTokens(request, response)
 });
 
 export default account
