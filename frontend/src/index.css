@@ -68,7 +68,7 @@ a{
     text-decoration: none;
 }
 
-input{
+.defaultInput{
     width: 100%;
     margin: 10px 0px;
     padding: 12px;
@@ -77,12 +77,11 @@ input{
     font-size: 15px;
 }
 
-input::placeholder {
+.defaultInput::placeholder {
     color: #000000;
 }
-  
 
-button{
+.button_primary{
     width: 100%;
     padding: 12px;
     border-radius: 15px;
@@ -90,4 +89,28 @@ button{
     background-color: #000000;
     border: 0px;
     color: white;
+}
+
+.button_secondary{
+    padding: 15px;
+    color: white;
+    background-color: #339E33;
+    border-radius: 15px;
+    border: 0px solid;
+}
+
+.aling-right{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.main_current_value{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.main_current_value span{
+    font-weight: 700;
 }
