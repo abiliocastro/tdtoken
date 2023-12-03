@@ -9,7 +9,7 @@ function InputTransection(props) {
             <p className='input_transaction_description'>{props.description}</p>
             <div className='input_transection'>
                 <img src={props.type == 'tdtoken' ? tdTokenIcon : pixIcon} alt="" className='icon'/>
-                <input type="text" placeholder='100'/>
+                <input type="text" placeholder={props.placeholder}/>
                 <span className='text_type'>{props.type == 'tdtoken' ? "TDToken" : ''}</span>
             </div>
         </div>

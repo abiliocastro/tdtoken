@@ -13,7 +13,7 @@ function BuyTDTokens() {
                 <InputTransection icon={tdTokenIcon} type="tdtoken" description="Quero Comprar"/>
                 <p className='main_current_value'>Valor Atual: <span>R$ 10,00</span></p>
                 <div className='aling-right'>
-                    <ButtonSecondary text="Comprar TDTokens" margin="15px 0px 0px 0px"/>
+                    <ButtonSecondary text="Comprar TDTokens" margin="25px 0px 0px 0px"/>
                 </div>
             </div>
         </div>

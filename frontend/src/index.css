@@ -114,3 +114,7 @@ a{
 .main_current_value span{
     font-weight: 700;
 }
+
+.main_description{
+    margin-bottom: 20px;
+}
