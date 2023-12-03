@@ -41,7 +41,9 @@ function SingIn() {
         <div>
             <HeaderMenu text='Entrar' />
             <div className='content_container'>
-                <img src={logo} alt="" height= '44px' />
+                <div style={{alignSelf: 'left'}}>
+                    <img src={logo} alt="" height= '44px'/>
+                </div>
 
                 <div style={{'margin-top': '139px'}} >
                     <h1 className="title_medium">Bem vindo de volta!</h1>
