@@ -33,6 +33,8 @@ body, html {
 
 .content_container{
     position: relative;
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
     padding: 35px 24px 0px 24px;
     border-radius: 50px 50px 0px 0px;
@@ -92,6 +94,7 @@ a{
 }
 
 .button_secondary{
+    width: fit-content;
     padding: 15px;
     color: white;
     background-color: #339E33;
@@ -102,7 +105,8 @@ a{
 .aling-right{
     display: flex;
     width: 100%;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .main_current_value{
@@ -117,4 +121,8 @@ a{
 
 .main_description{
     margin-bottom: 20px;
+}
+
+.main_description span{
+    font-weight: 700;
 }

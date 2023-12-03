@@ -6,6 +6,7 @@ import Dashboard from './Pages/Dashboard.jsx'
 import Chat from './Pages/Chat.jsx'
 import BuyTDTokens from './Pages/BuyTDTokens.jsx'
 import SendTDTokens from './Pages/SendTDTokens .jsx'
+import ManageTDTokens from './Pages/ManageTDTokens.jsx'
 import './index.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: '/sendTokens',
     element: <SendTDTokens />
+  },
+  {
+    path: '/manageTDTokens',
+    element: <ManageTDTokens />
   },
   {
     path: '/chat',
