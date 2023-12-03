@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 // import App from './App.jsx'
+import Splashscreen from './Pages/Splashscreen.jsx'
 import SingIn from './Pages/SingIn.jsx'
 import SingUp from './Pages/SingUp.jsx'
 import Main from './Pages/Main.jsx'
@@ -10,6 +11,10 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Splashscreen />
+  },
   {
     path: '/',
     element: <SingIn />
