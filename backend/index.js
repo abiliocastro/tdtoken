@@ -12,7 +12,8 @@ var sess = {
     saveUninitialized: false,
     path: '/',
     cookie: {
-        sameSite: "none"
+        sameSite: "none",
+        maxAge: 1000 * 3600 * 24
     }
 }
   
