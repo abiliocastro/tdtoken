@@ -83,11 +83,11 @@ function bindKeyErrorHandle(error, contract) {
 
 function sendErrorHandle(error, contract) {
     const innerError = parseInnerError(error, contract);
-    if (innerError.errorName === 'InsufficientBalance') {
+    if (innerError.errorName && innerError.errorName === 'InsufficientBalance') {
         console.log(`InsufficientBalance meu chapa!`);
         throw innerError;
     }
-    else if(innerError.errorName === 'NotKeyHolder') {
+    else if(innerError.errorName && innerError.errorName === 'NotKeyHolder') {
         const errorMessage = `Financial institution: ${innerError.errorArgs[0]} is not keyholder of key: ${innerError.errorArgs[1]}!`;
         console.log(errorMessage);
         throw new NotKeyHolderError(errorMessage);
