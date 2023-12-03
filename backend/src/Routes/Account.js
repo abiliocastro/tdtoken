@@ -8,7 +8,7 @@ import corsOptions from '../Configuration/CorsConfig.js';
 
 const account = Router();
 
-account.use(cors(corsOptions))
+account.use(cors(corsOptions));
 
 const createAccountController = new CreateAccountController();
 const getBalanceController = new GetBalanceController();
@@ -16,26 +16,28 @@ const userController = new UserController();
 
 account.post('/createAccount', (request, response) => {
     createAccountController.handle(request, response)
-})
+});
 
 account.post('/login', (request, response) => {
     userController.login(request, response)
-})
+});
 
 account.post('/user', (request, response) => {
     userController.handleUser(request, response)
-})
+});
 
 account.post('/user/find', (request, response) => {
     userController.getUser(request, response)
-})
+});
 
 account.post('/user/load', authenticated, (request, response) => {
     userController.loadUserData(request, response)
-})
+});
 
 account.get('/balance/:key', authenticated, (request, response) => {
     getBalanceController.handle(request, response)
-})
+});
+
+// account.post('sendTransaction')
 
 export default account

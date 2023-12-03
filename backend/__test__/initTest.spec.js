@@ -1,10 +1,13 @@
+// TESTS FOR THE INITIAL SCENARIO WHEN A NEW CONTRACT IS DEPLOYED
 import { balances, mint, authorize, allowed_ifs, bind_key, key_holder, send } from '../src/Service/TDServices.js';
 import {KeyAlreadyBindedError } from '../src/Exceptions/KeyAlreadyBindedError.js';
 const timeout = 60000;
 
-// First: TD gives 250000 TDTokens for the LizardBroker
-test('LizardBroker should have 250000 of initial TDTokens balance', async () => {
-  const lb = "LizardBroker";
+const lb = "calangobank@calangobank.com";
+const ac = "castro.abilio@gmail.com";
+
+// First: TD gives 250000 TDTokens for the CalangoBank
+test('CalangoBank should have 250000 of initial TDTokens balance', async () => {
   await mint(lb, 250000);
   return balances(lb).then(data => {
     expect(data).toBe(250000n);
@@ -12,8 +15,7 @@ test('LizardBroker should have 250000 of initial TDTokens balance', async () => 
 }, timeout);
 
 // Second:
-test('LizardBroker should be allowed to perform transactions', async () => {
-  const lb = "LizardBroker";
+test('CalangoBank should be allowed to perform transactions', async () => {
   await authorize(lb);
   return allowed_ifs(lb).then(result => {
     expect(result).toBe(true);
@@ -21,8 +23,7 @@ test('LizardBroker should be allowed to perform transactions', async () => {
 }, timeout);
 
 // Third:
-test('LizardBroker should bind LizardBroker key', async () => {
-  const lb = "LizardBroker";
+test('CalangoBank should bind CalangoBank key', async () => {
   await bind_key(lb, lb);
   return key_holder(lb).then(result => {
     expect(result).to(lb);
@@ -30,9 +31,7 @@ test('LizardBroker should bind LizardBroker key', async () => {
 }, timeout);
 
 // Fourth:
-test('LizardBroker should send 10000 TDTokens to AbilioCastro', async () => {
-  const lb = "LizardBroker";
-  const ac = "AbilioCastro";
+test('CalangoBank should send 10000 TDTokens to AbilioCastro', async () => {
   await send(lb, lb, ac, 10000n);
   const acBalance = await balances(ac);
   const lbBalance = await balances(lb);
@@ -42,8 +41,14 @@ test('LizardBroker should send 10000 TDTokens to AbilioCastro', async () => {
 
 // Fifth:
 test('Should thrown KeyAlreadyBindedError', async () => {
-  const lb = "LizardBroker";
   await expect(bind_key(lb, lb))
   .rejects
   .toThrow(KeyAlreadyBindedError)
 }, timeout);
+
+// Checking Key Holder:
+// test('CalangoBank should be CalangoBank key holder', async () => {
+//   return key_holder(lb).then(result => {
+//     expect(result).toBe(lb);
+//   });
+// }, timeout);
