@@ -10,7 +10,7 @@ export class TransactionController {
         } catch (error) {
           return response.status(400).json({
             "message": "Error when sending transaction!",
-            "error": error.message
+            "error": error
           })   
         } 
       } else {
