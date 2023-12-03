@@ -1,0 +1,39 @@
+.transaction {
+    padding: 10px 0px;
+}
+
+.transaction .top, .bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.transaction .top{
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.transaction .top .date{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.transaction .bottom .description{
+    font-size: 13px;
+}
+
+.transaction .bottom .description span{
+    font-weight: 700;
+}
+
+.transaction .bottom .balance{
+    font-size: 16px;
+}
+
+.positive {
+    color: #339E33;
+}
+
+.negative {
+    color: #B22B19;
+}

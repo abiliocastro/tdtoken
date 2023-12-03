@@ -1,4 +1,4 @@
-import { insertUserInMongo, findUser } from "../Repository/UserRepository.js";
+import { insertUserInMongo, findUser, findByEmail, findToLoad } from "../Repository/UserRepository.js";
 
 async function saveUser(user) {
   return insertUserInMongo(user);
@@ -8,4 +8,12 @@ async function searchByUser(user) {
   return findUser(user);
 }
 
-export { saveUser, searchByUser };
+async function searchByEmail(email) {
+  return findByEmail(email);
+}
+
+async function searchToLoad(email) {
+  return findToLoad(email);
+}
+
+export { saveUser, searchByUser, searchByEmail, searchToLoad };

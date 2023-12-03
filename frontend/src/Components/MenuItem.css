@@ -1,29 +1,31 @@
 .menuItem{
-    width: 120px;
-    height: 120px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 16px;
-    border-radius: 15px;
-    box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
-    transition-duration: 1s;
+    flex-direction: column;
 }
 
-.menuItem:hover{
-    box-shadow: 0px 0px 30px rgba(0,0,0,0.2);
+.menuItem .icon_container{
+    width: 85px;
+    height: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2px;
+    border-radius: 15px;
+    background-color: #339E33;
 }
 
 .menuItem .icon{
-    width: 28px;
-    height: 28px;
-    margin-bottom: 10px;
-    color: #979797
+    width: 32px;
+    height: 32px;
+    color: #ffffff;
 }
 
 .menuItem span{
+    font-size: 13px;
+    font-weight: 500;
     text-align: center;
-    color: #7a7a7a
+    color: #339E33
 }
 

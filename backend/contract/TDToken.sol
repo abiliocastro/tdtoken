@@ -2,19 +2,14 @@
 pragma solidity ^0.8.4;
 
 contract TDToken {
-    // The keyword "public" makes variables
-    // accessible from other contracts
     address public minter;
     mapping(string => uint) public balances;
     mapping(string => string) public key_holder;
     mapping(string => bool) public allowed_ifs;
 
-    // Events allow clients to react to specific
-    // contract changes you declare
     event Sent(string from, string to, uint amount);
 
-    // Constructor code is only run when the contract
-    // is created
+    // Constructor code is only run when the contract is created
     constructor() {
         minter = msg.sender;
     }

@@ -8,7 +8,7 @@ function FormSender() {
 
     async function getBalance(){
         try {
-            const response = await api.get(`balance/AbilioCastro`);
+            const response = await api.get(`/balance/AbilioCastro`);
             const data = response.data;
             setBalance(data.balance)
         } catch (error) {

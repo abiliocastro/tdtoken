@@ -7,18 +7,20 @@
   "scripts": {
     "start": "node index.js",
     "debug": "node --inspect index.js",
-    "compile": "node scripts/compileContract.js",
-    "deploy": "node scripts/deployContract.js",
+    "compile:contract": "node scripts/compileContract.js",
+    "deploy:contract": "node scripts/deployContract.js",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "test:debug": "jest --detectOpenHandles"
   },
   "author": "Abilio Castro",
   "license": "MIT",
   "dependencies": {
+    "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "ethers": "^6.9.0",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "json-bigint": "^1.0.0",
     "mongodb": "^6.3.0",
     "openai": "^4.20.1",

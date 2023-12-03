@@ -4,9 +4,11 @@ import { IconContext } from "react-icons";
 function MenuItem(props){
     return(
         <div className="menuItem">
-            <IconContext.Provider value={{ className: 'icon', color: props.color }}>
-                {< props.icon />}
-            </IconContext.Provider> 
+            <div className='icon_container'>
+                <IconContext.Provider value={{ className: 'icon', color: props.color }}>
+                    {< props.icon />}
+                </IconContext.Provider> 
+            </div>
             <span>{props.text}</span>
         </div>
     )
