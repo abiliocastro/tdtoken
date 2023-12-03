@@ -1,11 +1,11 @@
 import './PanelBalances.css'
 
-function PanelBalances(){
+function PanelBalances(props){
     return (
         <div className='panel_balance_container'>
             <div className='right'>
                 <span className='title'>Saldo</span>
-                <h1>R$ 1.520,00</h1>
+                <h1>R$ { props.realBalance ? props.realBalance : "---" }</h1>
             </div>
             <div className='left'>
                 <span className='title'>TDTokens</span>

@@ -33,7 +33,7 @@ function Main() {
         <div>
             <HeaderMenu />
             <div className='content_container'>
-                <PanelBalances />
+                <PanelBalances realBalance={ user && user.realBalance}/>
                 <div style={{'display': 'flex', 'justifyContent': 'center'}}>
                     <div className='grid_menu_container'>
                         <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
@@ -45,7 +45,13 @@ function Main() {
                 <div className='transactions_container'>
                     <span className='title'>Últimas movimentações</span>
                     <hr />
-                    { loading && ("Carregando Transações") }
+                    { loading && 
+                        <div>
+                            <div className='load-item-one'></div>
+                            <div className='load-item-two'></div>
+                            <div className='load-item-three'></div>
+                        </div>
+                    }
                     { user && 
                         user.transactions.map((transaction, index) => {
                             return <TransactionItem key={index} date={transaction.date} value={transaction.value} sender={transaction.sender} /> 
