@@ -3,6 +3,7 @@ import api from '../Api.js'
 
 import HeaderMenu from '../Components/HeaderMenu';
 import ErrorMessage from '../Components/ErrorMessage.jsx';
+import LoadAnimation from '../Components/LoadAnimation.jsx'
 import logo from '../assets/logo.svg'
 
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,7 @@ function SingIn() {
 
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
+    const [loadingRequest, setLoadingRequest] = useState(false);
     const userField = useRef(null);
     const passwordField = useRef(null);
 
@@ -21,6 +23,7 @@ function SingIn() {
 
         if(user && password){
             try {
+                setLoadingRequest(true)
                 api.post('/login', {
                     "email": user,
                     "password": password
@@ -28,11 +31,14 @@ function SingIn() {
                 { withCredentials: true }).then(response => {
                     if(response.data.message == 'success'){
                         localStorage.setItem("userId", user);
+                        setLoadingRequest(false)
                         navigate('/dashboard');
                     }
                 })
             } catch (error) {
                 console.log(error)
+                setLoadingRequest(false)
+
             }
         }else{
             setShowErrorMessage(true)
@@ -43,6 +49,7 @@ function SingIn() {
     return (
         <div>
             { showErrorMessage && <ErrorMessage message={errorMessage}/> }
+            { loadingRequest && <LoadAnimation /> }
             
             <HeaderMenu text='Entrar' navigatePath={'/dashboard'} />
             <div className='content_container'>

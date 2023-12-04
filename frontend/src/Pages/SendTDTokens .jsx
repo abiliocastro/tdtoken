@@ -2,6 +2,7 @@ import api from '../Api';
 import HeaderMenu from '../Components/HeaderMenu';
 import InputTransection from '../Components/InputTransaction';
 import ButtonSecondary from '../Components/ButtonSecondary';
+import LoadAnimation from '../Components/LoadAnimation.jsx'
 import CurrencyFormat from 'react-currency-format';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -14,8 +15,8 @@ import pixIcon from '../assets/pix_icon.svg'
 function SendTDTokens() {
     const amountField = useRef(null);
     const receiverField = useRef(null);
+    const [loadingRequest, setLoadingRequest] = useState(false);
     const [message, setMessage] = useState('');
-
     const [amount, setAmount] = useState(null)
     const [receiver, setReceiver] = useState(null)
     const [balance, setBalance] = useState(null);
@@ -40,9 +41,10 @@ function SendTDTokens() {
 
     function sendTransaction(){
         if(amount && receiver){
+            setLoadingRequest(true)
+
             amountField.current.value = ''
             receiverField.current.value = ''
-
             api.post('/sendTransaction', {
                 "sender": localStorage.getItem("userId"),
                 "receiver": receiver,
@@ -56,6 +58,7 @@ function SendTDTokens() {
                     setTransactionID(response.data)
                     setShowNextPage(3)
                 }
+                setLoadingRequest(false)
             })
         }
 
@@ -92,6 +95,8 @@ function SendTDTokens() {
 
     return (
         <div>
+            { loadingRequest && <LoadAnimation /> }
+
             <HeaderMenu text='Enviar TDTokens' />
             <div className='content_container' style={showNextPage == 1 ? {display: 'flex'} : {display: 'none'}}>
                 <p className='main_description' style={{'display': 'flex'}}>

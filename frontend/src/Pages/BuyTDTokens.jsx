@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import HeaderMenu from '../Components/HeaderMenu';
 import InputTransection from '../Components/InputTransaction';
 import ButtonSecondary from '../Components/ButtonSecondary';
+import LoadAnimation from '../Components/LoadAnimation.jsx'
 import CurrencyFormat from 'react-currency-format';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -11,10 +12,10 @@ import api from '../Api.js'
 import currencyApi from '../CurrencyApi.js'
 
 function BuyTDTokens() {
+    const [loadingRequest, setLoadingRequest] = useState(false);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [loadingCurrentValue, setLoadingCurrentValue] = useState(true);
-    
     const [amount, setAmount] = useState(null)
     const [currentValue, setCurrentValue] = useState(null)
     const [transactionID, setTransactionID] = useState(null)
@@ -46,6 +47,7 @@ function BuyTDTokens() {
 
     function buyTokens(){
         if(amount){
+            setLoadingRequest(true)
             amountField.current.value = ''
             api.post('/buyTokens', {
                 "amount": parseFloat(amount)
@@ -58,6 +60,7 @@ function BuyTDTokens() {
                     setTransactionID(response.data)
                     setShowNextPage(3)
                 }
+                setLoadingRequest(false)
             })
         }
     }
@@ -76,6 +79,8 @@ function BuyTDTokens() {
 
     return (
         <div>
+            { loadingRequest && <LoadAnimation /> }
+
             <HeaderMenu text='Comprar TDTokens' />
             <div className='content_container' style={showNextPage == 1 ? {display: 'flex'} : {display: 'none'}}>
                 <p className='main_description' style={{'display': 'flex'}}>
