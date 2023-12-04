@@ -88,12 +88,14 @@ function Main() {
                 <div className='transactions_container'>
                     <span className='title'>Últimas movimentações</span>
                     <hr />
-                    { loading && <Skeleton count={5} style={{height: '80px'}} /> }
-                    { user && user.transactions &&
-                        user.transactions.map((transaction, index) => {
-                            return <TransactionItem key={index} date={transaction.date} description={transaction.description} tokenValue={transaction.tokenValue} sender={transaction.sender} /> 
-                        })
-                    }
+                    <div className='transactions_list'>
+                        { loading && <Skeleton count={5} style={{height: '80px'}} /> }
+                        { user && user.transactions &&
+                            user.transactions.map((transaction, index) => {
+                                return <TransactionItem key={index} date={transaction.date} description={transaction.description} tokenValue={transaction.tokenValue} sender={transaction.sender} /> 
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </div>
