@@ -10,6 +10,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { FaWallet } from "react-icons/fa6";
 import TransactionItem from '../Components/TransactionItem';
 import api from '../Api.js'
+import currencyApi from '../CurrencyApi.js'
 
 function Main() {
     const [user, setUser] = useState(null);
@@ -41,9 +42,11 @@ function Main() {
                     setBalance(balance)
                     setLoadingBalance(false)
 
-                    const TD_TOKEN_CURRENT_VALUE = 0.15
-                    setBalanceToReal((balance * TD_TOKEN_CURRENT_VALUE).toFixed(2))
-                    setLoadingBalanceToReal(false)
+                    currencyApi.get().then(responseCurrency => {
+                        const currentValue = responseCurrency.data.data.rates['BRL']
+                        setBalanceToReal((balance * parseFloat(currentValue)).toFixed(2))
+                        setLoadingBalanceToReal(false)
+                    })
 
                 })
             }
@@ -59,7 +62,7 @@ function Main() {
                         <span className='title'>Saldo</span>
                         <h1>
                             { loading && <Skeleton /> }
-                            { user && <CurrencyFormat value={user.realBalance} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'R$ '} /> }
+                            { user && <CurrencyFormat value={user.realBalance} displayType={'text'} decimalScale={2} thousandSeparator={'.'} decimalSeparator={','} prefix={'R$ '} /> }
                         </h1>
                     </div>
                     <div className='left'>
@@ -88,7 +91,7 @@ function Main() {
                     { loading && <Skeleton count={5} style={{height: '80px'}} /> }
                     { user && user.transactions &&
                         user.transactions.map((transaction, index) => {
-                            return <TransactionItem key={index} date={transaction.date} value={transaction.value} sender={transaction.sender} /> 
+                            return <TransactionItem key={index} date={transaction.date} description={transaction.description} tokenValue={transaction.tokenValue} sender={transaction.sender} /> 
                         })
                     }
                 </div>

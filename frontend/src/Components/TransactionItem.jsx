@@ -1,16 +1,29 @@
 import './TransactionItem.css'
 
+import tdTokenIcon from '../assets/td_token_icon.svg'
+
 function TransactionItem(props) {
+    function formatDate(){
+        if(props.date){
+            let date = new Date(props.date)
+            return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
+        }
+    }
+
     return (
         <div>
             <div className='transaction'>
                 <div className='top'>
-                    <span>icon</span>
-                    <span className='date'>{props.date}</span>
+                    <img src={tdTokenIcon} alt="" />
+                    <span className='date'>{formatDate()}</span>
                 </div>
                 <div className='bottom'>
-                    <p className='description'>Pix recebido de <span>{props.sender}</span></p>
-                    <span className={'balance positive'}>R$ {props.value}</span>
+                    <p className='description'>{props.description}</p>
+                    { props.tokenValue < 0 ? 
+                        <span className={'balance negative'}>-{props.tokenValue * -1} TDTokens</span>
+                        : 
+                        <span className={'balance positive'}>{props.tokenValue} TDTokens</span>
+                    }
                 </div>
             </div>
             <hr />
