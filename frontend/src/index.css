@@ -199,10 +199,12 @@ a{
 }
 
 .load-popup img{
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     z-index: 99;
     border-radius: 50%;
+    animation: logo-one 2s infinite linear
+
 }
 
 @keyframes circle-one{
@@ -218,6 +220,20 @@ a{
     }
 }
 
+@keyframes logo-one{
+    0%{
+        opacity: 1;
+        transform: scale(1);
+    }
+    50%{
+        opacity: 0.4;
+        transform: scale(1.1);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
 
 div[class^="load-item-"]{
