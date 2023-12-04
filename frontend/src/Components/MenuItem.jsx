@@ -5,9 +5,7 @@ function MenuItem(props){
     return(
         <div className="menuItem">
             <div className='icon_container'>
-                <IconContext.Provider value={{ className: 'icon', color: props.color }}>
-                    {< props.icon />}
-                </IconContext.Provider> 
+                <img src={props.icon} alt="" className='icon'/>
             </div>
             <span>{props.text}</span>
         </div>
