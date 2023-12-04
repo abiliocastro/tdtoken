@@ -50,7 +50,7 @@ function Chat(){
 
     return(
         <div>
-            <HeaderMenu text='Assistente' />
+            <HeaderMenu text='Assistente' navigatePath={'/dashboard'} />
             <div className='content_container'>
                 <div className='chat_container'>
                     <div className="message_container">

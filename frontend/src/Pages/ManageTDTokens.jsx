@@ -5,7 +5,7 @@ import TransactionItem from '../Components/TransactionItem';
 function ManageTDTokens() {
     return (
         <div>
-            <HeaderMenu text='Gerenciar TDTokens' />
+            <HeaderMenu text='Gerenciar TDTokens' navigatePath={'/dashboard'} />
             <div className='content_container'>
                 <p className='main_description'>Você possui <span>10000</span> TDTokens</p>
                 <div className='transactions_container'>

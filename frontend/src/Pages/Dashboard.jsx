@@ -16,6 +16,8 @@ import TransactionItem from '../Components/TransactionItem';
 import api from '../Api.js'
 import currencyApi from '../CurrencyApi.js'
 
+import { useNavigate } from 'react-router-dom';
+
 function Main() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -23,6 +25,8 @@ function Main() {
     const [loadingBalance, setLoadingBalance] = useState(true);
     const [balanceToReal, setBalanceToReal] = useState(null);
     const [loadingBalanceToReal, setLoadingBalanceToReal] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         api.post('/user/load', {
@@ -59,7 +63,7 @@ function Main() {
     
     return (
         <div>
-            <HeaderMenu />
+            <HeaderMenu text={user ? 'Olá ' + user.name : '--' } hideBack={true} />
             <div className='content_container'>
                 <div className='panel_balance_container'>
                     <div className='right'>
@@ -84,8 +88,8 @@ function Main() {
                 <div style={{'display': 'flex', 'justifyContent': 'center'}}>
                     <div className='grid_menu_container'>
                         <MenuItem icon={ pixIcon } color="#ffffff" text="Chave Pix"/>
-                        <MenuItem icon={ tdTokeIcon } color="#ffffff" text="TDTokens"/>
-                        <MenuItem icon={ assistentIcon } color="#ffffff" text="Assistente"/>
+                        <MenuItem icon={ tdTokeIcon } navigate={'/tokens/manage'} color="#ffffff" text="TDTokens"/>
+                        <MenuItem icon={ assistentIcon } navigate={'/chat'} color="#ffffff" text="Assistente"/>
                         <MenuItem icon={ accountIcon } color="#ffffff" text="Minha Conta"/>
                     </div>
                 </div>

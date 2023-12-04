@@ -42,27 +42,27 @@ function SingUp() {
         <div>
             { showErrorMessage && <ErrorMessage message={errorMessage}/> }
 
-            <HeaderMenu text="Cadastro" />
+            <HeaderMenu text="Cadastro" navigatePath={'/'} />
             <div className='content_container' style={showPasswordPage ? {display: 'none'} : {display: 'flex'}}>
                 <div style={{alignSelf: 'left'}}>
                     <img src={logo} alt="" height= '44px'/>
                 </div>
 
-                <div style={{'margin-top': '139px'}} >
+                <div style={{'marginTop': '139px'}} >
                     <h1 className="title_medium">Bem vindo, </h1>
                     <span className="subtitle_medium">Crie sua conta, o CalangoBank veio para vacilitar sua vida financeira.</span>
                 </div>
 
-                <div style={{'margin-top': '45px'}}>
+                <div style={{'marginTop': '45px'}}>
                     <input className="defaultInput" ref={nameField} type="text" placeholder="Nome Completo"/>
                     <input className="defaultInput" ref={emailField} type="text" placeholder="Email"/>
                     <input className="defaultInput" ref={cpfField} type="text" placeholder="CPF"/>
 
-                    <button className='button_primary' onClick={goNextPage} style={{'margin-top': '68px'}}>Continuar</button>
+                    <button className='button_primary' onClick={goNextPage} style={{'marginTop': '68px'}}>Continuar</button>
                 </div>
 
                 <div className='create_account_text'>
-                    <a href="/">
+                    <a href="/login">
                         Já tem uma conta? <span style={{fontWeight: 'bold'}}>Entrar</span>
                     </a>
                 </div>
@@ -72,20 +72,20 @@ function SingUp() {
                     <img src={logo} alt="" height= '44px'/>
                 </div>
 
-                <div style={{'margin-top': '139px'}} >
+                <div style={{'marginTop': '139px'}} >
                     <h1 className="title_medium">Criar Senha</h1>
                     <span className="subtitle_medium">Crie sua conta, o CalangoBank veio para vacilitar sua vida financeira.</span>
                 </div>
 
-                <div style={{'margin-top': '45px'}}>
+                <div style={{'marginTop': '45px'}}>
                     <input className="defaultInput" ref={passwordField} type="password" placeholder="Crie sua senha"/>
                     <input className="defaultInput" ref={confirmPasswordField} type="password" placeholder="Confirme sua senha"/>
 
-                    <button className='button_primary' onClick={createAccount} style={{'margin-top': '68px'}}>Confirmar Senha</button>
+                    <button className='button_primary' onClick={createAccount} style={{'marginTop': '68px'}}>Confirmar Senha</button>
                 </div>
 
                 <div className='create_account_text'>
-                    <a href="/">
+                    <a href="/login">
                         Já tem uma conta? <span style={{fontWeight: 'bold'}}>Entrar</span>
                     </a>
                 </div>

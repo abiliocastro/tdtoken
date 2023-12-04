@@ -44,25 +44,25 @@ function SingIn() {
         <div>
             { showErrorMessage && <ErrorMessage message={errorMessage}/> }
             
-            <HeaderMenu text='Entrar' />
+            <HeaderMenu text='Entrar' navigatePath={'/'} />
             <div className='content_container'>
                 <div style={{alignSelf: 'left'}}>
                     <img src={logo} alt="" height= '44px'/>
                 </div>
 
-                <div style={{'margin-top': '139px'}} >
+                <div style={{'marginTop': '139px'}} >
                     <h1 className="title_medium">Bem vindo de volta!</h1>
                     <span className="subtitle_medium">Olá, entre em sua conta para continuar</span>
                 </div>
 
-                <div style={{'margin-top': '45px'}}>
+                <div style={{'marginTop': '45px'}}>
                     <input className="defaultInput" type="text" ref={userField} placeholder="Email"/>
                     <input className="defaultInput" type="password" ref={passwordField} placeholder="Senha"/>
                     <p className='forget_password_option'>
                         <a href="http://">Esqueceu a senha ?</a>
                     </p>
 
-                    <button className='button_primary' style={{'margin-top': '68px'}} onClick={authentication}>Entrar</button>
+                    <button className='button_primary' style={{'marginTop': '68px'}} onClick={authentication}>Entrar</button>
                 </div>
 
                 <div className='create_account_text'>
