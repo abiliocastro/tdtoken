@@ -2,10 +2,9 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Replace the placeholder with your Atlas connection string
 const uri = `mongodb+srv://tdtoken:${process.env.MONGO_PASS}@tdtokencluster.irszsrs.mongodb.net/?retryWrites=true&w=majority`;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri,  {
         serverApi: {
             version: ServerApiVersion.v1,

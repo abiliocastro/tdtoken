@@ -16,6 +16,7 @@ const getBalanceController = new GetBalanceController();
 const userController = new UserController();
 const transactionController = new TransactionController();
 
+// User and auth
 account.post('/createAccount', (request, response) => {
     createAccountController.handle(request, response)
 });
@@ -36,12 +37,36 @@ account.post('/user/load', authenticated, (request, response) => {
     userController.loadUserData(request, response)
 });
 
+account.post('/checkSession', authenticated, (request, response) => {
+    if(request.body.userId && request.body.userId == request.session.user.email) {
+        return response.status(200).send();
+    } else {
+        return response.status(401).json({ 
+            "message": "Unhauthorized"
+        });    
+    }    
+})
+
+account.get('/logout', authenticated, (request, response) => {
+    request.session.destroy();
+    return response.status(200).send(); 
+})
+
+// Transactions
 account.get('/balance/:key', authenticated, (request, response) => {
     getBalanceController.handle(request, response)
 });
 
 account.post('/sendTransaction', authenticated, (request, response) => {
-    transactionController.handle(request, response)
+    transactionController.handleSendTransaction(request, response)
+});
+
+account.post('/buyTokens', authenticated, (request, response) => {
+    transactionController.handleBuyTokens(request, response)
+});
+
+account.get('/transaction/:id', authenticated, (request, response) => {
+    transactionController.handleGetTransaction(request, response)
 });
 
 export default account
