@@ -12,39 +12,71 @@ import './index.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <SingIn />
+//   },
+//   {
+//     path: '/createAccount',
+//     element: <SingUp />
+//   },
+//   {
+//     path: '/dashboard',
+//     element: 
+//       <PrivateRoute>
+//         <Dashboard />
+//       </PrivateRoute>
+//   },
+//   {
+//     path: '/buyTokens',
+//     element: <BuyTDTokens />
+//   },
+//   {
+//     path: '/sendTokens',
+//     element: <SendTDTokens />
+//   },
+//   {
+//     path: '/manageTDTokens',
+//     element: <ManageTDTokens />
+//   },
+//   {
+//     path: '/chat',
+//     element: <Chat />
+//   }
+// ])
+
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <SingIn />
-  },
-  {
-    path: '/createAccount',
-    element: <SingUp />
-  },
-  {
-    path: '/dashboard',
-    element: (
-      <PrivateRoute>
-        <Dashboard />
-      </PrivateRoute>
-    )
-  },
-  {
-    path: '/buyTokens',
-    element: <BuyTDTokens />
-  },
-  {
-    path: '/sendTokens',
-    element: <SendTDTokens />
-  },
-  {
-    path: '/manageTDTokens',
-    element: <ManageTDTokens />
-  },
-  {
-    path: '/chat',
-    element: <Chat />
-  }
+    {
+      path: '/',
+      element: <PrivateRoute />,
+      children: [
+        {
+          path: '/',
+          element: <Dashboard />
+        },
+        {
+          path: '/tokens/buy',
+          element: <BuyTDTokens />
+        },
+        {
+          path: '/tokens/send',
+          element: <SendTDTokens />
+        },
+        {
+          path: '/tokens/manage',
+          element: <ManageTDTokens />
+        },
+        {
+          path: '/chat',
+          element: <Chat />
+        }
+      ]
+    },
+    {
+      path: '/login',
+      element: <SingIn />
+    }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(<RouterProvider router={router} />)
