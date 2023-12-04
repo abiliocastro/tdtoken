@@ -1,0 +1,40 @@
+.img-splash {
+  margin-top: 70px;
+  width: 139px;
+  align-self: center;
+}
+
+.splashscreen_container {
+  margin-top: 82px;
+  height: 100vh;
+}
+
+.slogan_text{
+  align-self: center;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #000000;
+}
+
+.effect-phrase {
+  margin-top: 70px;
+  align-self: center;
+  text-align: center;
+  width: 300px;
+  background: linear-gradient(180deg, #339E33 0%, rgba(0, 0, 0, 0.94) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.button_access {
+  width: 100%;
+  padding: 12px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: 2px;
+  border-style: solid;
+  border-color: #000000;
+  cursor: pointer;
+}

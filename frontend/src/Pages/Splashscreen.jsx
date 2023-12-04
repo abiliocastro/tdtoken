@@ -1,19 +1,18 @@
 import '../Pages/Splashscreen.css';
 import inicial from '../assets/inicial.png';
+import { useNavigate } from 'react-router-dom';
 
 function Splashscreen() {
+    const navigate = useNavigate();
+
     return (
         <div>
-            <div className='splashscreen-container'>
-                <div className='content_container'>
-                    <img src={inicial} alt="" height= '126px' />
-                    <div style={{'margin-top': '139px'}} >
-                        <h1 className="title_medium">O Banco que te ajuda</h1>
-                        <span className="subtitle_medium">“No mercado financeiro, cada investimento é uma semente de transformação, cultivando oportunidades que florescem na vida das pessoas.”</span>
-                    </div> 
-                    <button className='transparent' style={{'margin-top': '68px'}}>Acessar sua conta</button>
-                    <button style={{'margin-top': '28px'}}>Criar conta</button>
-                </div>  
+            <div className='splashscreen_container content_container'>
+                <img className='img-splash' src={inicial} alt="" height= '126px' />
+                <span className="slogan_text">O Banco que te ajuda</span>
+                <h4 className="effect-phrase">“No mercado financeiro, cada investimento é uma semente de transformação, cultivando oportunidades que florescem na vida das pessoas.”</h4>
+                <button className='button_access' onClick={() => { navigate('/login'); }} style={{'margin-top': '68px'}}>Acessar sua conta</button>
+                <button className='button_primary' onClick={() => { navigate('/createAccount'); }} style={{'margin-top': '28px'}}>Criar conta</button>
             </div>
         </div>
     )

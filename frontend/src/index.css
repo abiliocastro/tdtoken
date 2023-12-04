@@ -92,6 +92,7 @@ a{
     background-color: #000000;
     border: 0px;
     color: white;
+    cursor: pointer;
 }
 
 .button_secondary{
