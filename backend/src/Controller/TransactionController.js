@@ -1,4 +1,4 @@
-import { sendTransaction, buyTokens } from "../Service/TransactionService.js";
+import { sendTransaction, buyTokens, getTransactionFromDb } from "../Service/TransactionService.js";
 
 export class TransactionController {
   async handleSendTransaction(request, response){
@@ -38,7 +38,25 @@ export class TransactionController {
       }
     }
     return response.status(400).json({
-      "message": "Invalid amount",
+      "message": "Invalid amount"
+    }) 
+  }
+
+  async handleGetTransaction(request, response){ 
+    const { id } = request.params
+    if(id) {
+      try {
+        const result = await getTransactionFromDb(id, request.session.user.email);
+        return response.status(200).json(result);  
+      } catch (error) {
+        return response.status(400).json({
+          "message": "Error when get transaction!",
+          "error": error.message
+        })     
+      }
+    }
+    return response.status(400).json({
+      "message": "Invalid transaction id"
     }) 
   }
 }

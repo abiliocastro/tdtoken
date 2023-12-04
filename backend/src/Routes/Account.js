@@ -65,4 +65,8 @@ account.post('/buyTokens', authenticated, (request, response) => {
     transactionController.handleBuyTokens(request, response)
 });
 
+account.get('/transaction/:id', authenticated, (request, response) => {
+    transactionController.handleGetTransaction(request, response)
+});
+
 export default account

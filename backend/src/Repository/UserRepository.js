@@ -104,4 +104,38 @@ async function updateWhenBuyTokens(email, newBalance, transaction) {
   }
 }
 
-export { insertUserInMongo, findUser, findByEmail, findToLoad, findUserRealBalance, updateWhenBuyTokens };
+async function findUserTransaction(id, email) {
+  try {
+    await client.connect();
+    const myDB = client.db("tdtoken");
+    const myColl = myDB.collection("Users");
+    const agg = [
+      {
+        '$match': {
+          'email': email
+        }
+      }, {
+        '$unwind': {
+          'path': '$transactions', 
+          'preserveNullAndEmptyArrays': false
+        }
+      }, {
+        '$match': {
+          'transactions._id': new ObjectId(id)
+        }
+      }
+    ];
+    const cursor = myColl.aggregate(agg);
+    const result = await cursor.toArray();
+    if(result) {
+      return result[0].transactions;
+    }
+    return result;  
+  } catch (error) {
+    throw error; 
+  } finally {
+    await client.close();
+  }  
+}
+
+export { insertUserInMongo, findUser, findByEmail, findToLoad, findUserRealBalance, updateWhenBuyTokens, findUserTransaction };

@@ -1,5 +1,5 @@
 import { send } from "./TDServices.js";
-import { findUserRealBalance, updateWhenBuyTokens } from "../Repository/UserRepository.js";
+import { findUserRealBalance, updateWhenBuyTokens, findUserTransaction } from "../Repository/UserRepository.js";
 import { NotEnougRealFounds } from "../Exceptions/NotEnougRealFounds.js";
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
@@ -40,5 +40,13 @@ async function buyTokens(receiver, amount) {
   }
 }
 
-export { sendTransaction, buyTokens };
+async function getTransactionFromDb(id, email) {
+  try {
+    return await findUserTransaction(id, email);
+  } catch (error) {
+    throw error
+  }
+}
+
+export { sendTransaction, buyTokens, getTransactionFromDb };
 
