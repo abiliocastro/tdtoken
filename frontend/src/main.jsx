@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <Splashscreen />
   },
   {
-    path: '/',
+    path: '/login',
     element: <SingIn />
   },
   {

@@ -1,83 +1,71 @@
-.splashscreen-container{
-width: 100%;
-height: 750px;
-background: var(--Preto, #000);
+/* .splashscreen-container {
+  width: 100%;
+  height: 750px;
+  background: var(--Preto, #000);
 }
 
-.content_container{
-
-    width: 100%;
-    height: 750px;
-    Top: 108px;
-    flex-shrink: 0;
-    border-radius: 30px 30px 0px 0px;
-    background-color: rgb(251, 251, 251);
-    display: flex; 
+.content_container {
+  width: 100%;
+  height: 750px;
+  Top: 108px;
+  flex-shrink: 0;
+  border-radius: 30px 30px 0px 0px;
+  background-color: rgb(251, 251, 251);
+  display: flex; 
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
-
 }
 
-.content_container img{
-
-    width: 138.17px;
-    height: 126px;
-    top: 254px;
-    left: 116px;
-   
+.content_container img {
+  width: 138.17px;
+  height: 126px;
+  top: 254px;
+  left: 116px;
 }
 
-.title_medium{
-
-width: 270px;
-height: 21px;
-flex-shrink: 0;
-color: #07660f;
-text-align: center;
-font-family: Poppins;
-font-style: normal;
-font-weight: 50%;
-line-height: 0%; 
+.title_medium {
+  width: 270px;
+  height: 21px;
+  flex-shrink: 0;
+  color: #07660f;
+  text-align: center;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 50%;
+  line-height: 0%; 
 }
 
-.subtitle_medium{
-    display: flex;
-    width: 270px;
-    height: 133px;
-    flex-shrink: 0;
-    flex-grow: 1;
-    text-align: center;
-    font-style: normal;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 150%;
-    background: linear-gradient(180deg, #339E33 0%, rgba(0, 0, 0, 0.94) 100%);
-background-clip: text;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-    
-    
+.subtitle_medium {
+  display: flex;
+  width: 270px;
+  height: 133px;
+  flex-shrink: 0;
+  flex-grow: 1;
+  text-align: center;
+  font-style: normal;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 150%;
+  background: linear-gradient(180deg, #339E33 0%, rgba(0, 0, 0, 0.94) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-
-button{
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 15px;
-    background: var(--Preto, #000);
-    color: white;
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 15px;
+  background: var(--Preto, #000);
+  color: white;
 } 
 
 .transparent {
-    
-    border: 1px solid var(--Preto, #000);
-    background-color: rgba(255, 255, 255, 0.4); /* Fundo transparente */
-  color: var(--Preto, #000); /* Cor do texto, ajuste conforme necessário */
-
-      
-}
+  border: 1px solid var(--Preto, #000);
+  background-color: rgba(255, 255, 255, 0.4); /* Fundo transparente */
+  color: var(--Preto, #000); /* Cor do texto, ajuste conforme necessário */     
+} */
 
 
