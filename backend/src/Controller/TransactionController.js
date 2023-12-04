@@ -28,8 +28,8 @@ export class TransactionController {
   async handleBuyTokens(request, response){ 
     if(request.body.amount && request.body.amount > 0 && request.session.user.email) {
       try {
-        await buyTokens(request.session.user.email, request.body.amount);
-        return response.status(200).send();  
+        const result = await buyTokens(request.session.user.email, request.body.amount);
+        return response.status(200).json(result);  
       } catch (error) {
         return response.status(400).json({
           "message": "Error when sending transaction!",

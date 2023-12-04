@@ -1,5 +1,5 @@
 import { send } from "./TDServices.js";
-import { findUserRealBalance } from "../Repository/UserRepository.js";
+import { findUserRealBalance, updateWhenBuyTokens } from "../Repository/UserRepository.js";
 import { NotEnougRealFounds } from "../Exceptions/NotEnougRealFounds.js";
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
@@ -24,7 +24,14 @@ async function buyTokens(receiver, amount) {
     const userAvailableBalance = await findUserRealBalance(receiver);
     if(userAvailableBalance >= realValue) {
       await send(calangoBankKey, calangoBankKey, receiver, amount);
-      // Decrease valor em reais
+      let transaction = {
+        "date": new Date(),
+        "tokenValue": amount,
+        "operationPrice": realValue,
+        "description": "Compra de TDTokens"
+      }
+      let newBalance = userAvailableBalance - realValue;
+      return await updateWhenBuyTokens(receiver, newBalance, transaction);
     } else {
       throw new NotEnougRealFounds(`User ${receiver} not have enough real founds | requested: ${realValue} available: ${userAvailableBalance}`)
     }    
