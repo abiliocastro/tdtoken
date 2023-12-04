@@ -5,8 +5,8 @@ export class TransactionController {
     if(request.body.sender && request.body.receiver && request.body.amount) {
       if(request.session.user.email == request.body.sender) {
         try {
-          await sendTransaction(request.body.sender, request.body.receiver, request.body.amount);
-          return response.status(200).send();  
+          const result = await sendTransaction(request.body.sender, request.body.receiver, request.body.amount);
+          return response.status(200).json(result);  
         } catch (error) {
           return response.status(400).json({
             "message": "Error when sending transaction!",
