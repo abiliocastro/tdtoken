@@ -1,5 +1,5 @@
 import { send } from "./TDServices.js";
-import { findUserRealBalance, updateWhenBuyTokens, findUserTransaction } from "../Repository/UserRepository.js";
+import { findUserRealBalance, updateWhenBuyTokens, findUserTransaction, updateWhenSendTransaction } from "../Repository/UserRepository.js";
 import { NotEnougRealFounds } from "../Exceptions/NotEnougRealFounds.js";
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
@@ -9,7 +9,8 @@ const calangoBankKey = process.env.CALANGO_BANK_KEY;
 
 async function sendTransaction(sender, receiver, amount) {
   try {
-    await send(calangoBankKey, sender, receiver, amount);  
+    await send(calangoBankKey, sender, receiver, amount);
+    return updateWhenSendTransaction(sender, receiver, amount);   
   } catch (error) {
     throw error;
   }

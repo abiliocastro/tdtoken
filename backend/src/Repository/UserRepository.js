@@ -84,6 +84,47 @@ async function findUserRealBalance(email) {
   }
 }
 
+async function updateWhenSendTransaction(sender, receiver, amount) {
+  const senderTransactionId = new ObjectId();
+  let senderTransaction = {
+    "_id": senderTransactionId,
+    "date": new Date(),
+    "tokenValue": -amount,
+    "description": `Envio de TDTokens para ${receiver}`  
+  }
+  let receiverTransaction = {
+    "_id": new ObjectId(),
+    "date": new Date(),
+    "tokenValue": amount,
+    "description": `TDTokens recebidos de ${sender}`  
+  }
+  let operations = [
+    {
+      updateOne: { 
+        filter:{ email: sender }, 
+        update: { "$push": { "transactions": senderTransaction }} 
+      } 
+    },
+    {
+      updateOne: { 
+        filter:{ email: receiver }, 
+        update: { "$push": { "transactions": receiverTransaction }} 
+      } 
+    }    
+  ]
+  try {
+    await client.connect();
+    const myDB = client.db("tdtoken");
+    const myColl = myDB.collection("Users");
+    const result = await myColl.bulkWrite(operations);
+    return senderTransactionId;  
+  } catch (error) {
+    throw error; 
+  } finally {
+    await client.close();
+  }
+}
+
 async function updateWhenBuyTokens(email, newBalance, transaction) {
   try {
     await client.connect();
@@ -138,4 +179,11 @@ async function findUserTransaction(id, email) {
   }  
 }
 
-export { insertUserInMongo, findUser, findByEmail, findToLoad, findUserRealBalance, updateWhenBuyTokens, findUserTransaction };
+export {  insertUserInMongo, 
+          findUser, 
+          findByEmail, 
+          findToLoad, 
+          findUserRealBalance, 
+          updateWhenBuyTokens, 
+          findUserTransaction,
+          updateWhenSendTransaction };
