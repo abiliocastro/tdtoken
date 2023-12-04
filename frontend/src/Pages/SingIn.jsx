@@ -44,7 +44,7 @@ function SingIn() {
         <div>
             { showErrorMessage && <ErrorMessage message={errorMessage}/> }
             
-            <HeaderMenu text='Entrar' navigatePath={'/'} />
+            <HeaderMenu text='Entrar' navigatePath={'/dashboard'} />
             <div className='content_container'>
                 <div style={{alignSelf: 'left'}}>
                     <img src={logo} alt="" height= '44px'/>

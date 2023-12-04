@@ -13,40 +13,6 @@ import './index.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <SingIn />
-//   },
-//   {
-//     path: '/createAccount',
-//     element: <SingUp />
-//   },
-//   {
-//     path: '/dashboard',
-//     element: 
-//       <PrivateRoute>
-//         <Dashboard />
-//       </PrivateRoute>
-//   },
-//   {
-//     path: '/buyTokens',
-//     element: <BuyTDTokens />
-//   },
-//   {
-//     path: '/sendTokens',
-//     element: <SendTDTokens />
-//   },
-//   {
-//     path: '/manageTDTokens',
-//     element: <ManageTDTokens />
-//   },
-//   {
-//     path: '/chat',
-//     element: <Chat />
-//   }
-// ])
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -61,8 +27,14 @@ const router = createBrowserRouter([
     element: <SingUp />
   },
   {
-    path: '/dashboard',
-    element: <Dashboard />
+    path: '/',
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: '/dashboard',
+        element: <Dashboard />
+      },
+    ]
   },
   {
     path: '/tokens/buy',
