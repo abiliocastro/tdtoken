@@ -18,6 +18,9 @@ function SendTDTokens() {
         const receiver = receiverField.current.value;
 
         if(amount && receiver){
+            amountField.current.value = ''
+            receiverField.current.value = ''
+
             api.post('/sendTransaction', {
                 "sender": localStorage.getItem("userId"),
                 "receiver": receiver,
@@ -56,7 +59,7 @@ function SendTDTokens() {
                     </div>
                 </div>
                 <div className='aling-right'>
-                    <button onClick={sendTransaction} className='button_secondary'> Enviar TDTokens </button>
+                    <button onClick={sendTransaction} className='button_secondary' style={{marginTop: '25px'}}> Enviar TDTokens </button>
                 </div>
                 {message}
             </div>

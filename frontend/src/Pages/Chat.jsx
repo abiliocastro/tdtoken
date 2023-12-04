@@ -5,6 +5,7 @@ import './Chat.css'
 import Message from '../Components/Message.jsx'
 import { IconContext } from "react-icons";
 import { LuSendHorizonal } from "react-icons/lu";
+import HeaderMenu from '../Components/HeaderMenu.jsx';
 
 
 function Chat(){
@@ -42,33 +43,47 @@ function Chat(){
         }
     }
 
+    function sendSuggestion(text){
+        inputRef.current.value = text
+        sendMessage(text)
+    }
+
     return(
         <div>
-            <div className='chat_container'>
-                <div className="message_container">
-                    <div className='message assistent'>
-                        Olá, sou seu assistente aqui da <span style={{color: '#339E33', fontWeight: '700'}}>Calango Bank</span> e fico disponível para perguntar qualquer coisa sobre investimentos.
-                    </div>
-                    {messageList}
-
-                    {waitingResponse && 
-                        <div className='message assistent loading'>
-                            <span className='dot-one'>.</span>
-                            <span className='dot-two'>.</span>
-                            <span className='dot-three'>.</span>
+            <HeaderMenu text='Assistente' />
+            <div className='content_container'>
+                <div className='chat_container'>
+                    <div className="message_container">
+                        <div className='message assistent'>
+                            Olá, sou seu assistente aqui da <span style={{color: '#339E33', fontWeight: '700'}}>Calango Bank</span> e abaixo tem alguns exemplos de pergunta que podem ser feitas.
                         </div>
-                    }
-                    
-                </div>
-                <div className='chat_bottom'>
-                    <input ref={inputRef} type="text" placeholder='Pergunte-me qualquer coisa...'/>
-                    <button 
-                        onClick={sendMessage}
-                    >
-                        <IconContext.Provider value={{ className: 'icon', color: '#339E33' }}>
-                            {< LuSendHorizonal />}
-                        </IconContext.Provider> 
-                    </button>
+                        <div className='message client suggestion' onClick={() => sendSuggestion('O que são TDTokens ?')}>
+                            O que são TDTokens ?
+                        </div>
+                        <div className='message client suggestion' onClick={() => sendSuggestion('Como começar a investir em TDTokens ?')}>
+                            Como começar a investir em TDTokens ?
+                        </div>
+                        {messageList}
+
+                        {waitingResponse && 
+                            <div className='message assistent loading'>
+                                <span className='dot-one'>.</span>
+                                <span className='dot-two'>.</span>
+                                <span className='dot-three'>.</span>
+                            </div>
+                        }
+                        
+                    </div>
+                    <div className='chat_bottom'>
+                        <input ref={inputRef} type="text" placeholder='Pergunte-me qualquer coisa...'/>
+                        <button 
+                            onClick={sendMessage}
+                        >
+                            <IconContext.Provider value={{ className: 'icon', color: '#339E33' }}>
+                                {< LuSendHorizonal />}
+                            </IconContext.Provider> 
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

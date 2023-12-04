@@ -62,22 +62,18 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: (
-      <PrivateRoute>
-        <Dashboard />
-      </PrivateRoute>
-    )
+    element: <Dashboard />
   },
   {
-    path: '/buyTokens',
+    path: '/tokens/buy',
     element: <BuyTDTokens />
   },
   {
-    path: '/sendTokens',
+    path: '/tokens/send',
     element: <SendTDTokens />
   },
   {
-    path: '/manageTDTokens',
+    path: '/tokens/manage',
     element: <ManageTDTokens />
   },
   {
