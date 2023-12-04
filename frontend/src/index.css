@@ -110,6 +110,13 @@ a{
     align-items: flex-end;
 }
 
+.aling-bottom{
+    position: absolute;
+    padding: 0px 15px 35px 15px;
+    left: 0;
+    bottom: 0;
+}
+
 .main_current_value{
     display: flex;
     justify-content: space-between;
