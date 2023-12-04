@@ -7,7 +7,11 @@ import CurrencyFormat from 'react-currency-format';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import { FaWallet } from "react-icons/fa6";
+import pixIcon from '../assets/pix_icon_white.svg'
+import tdTokeIcon from '../assets/td_token_icon_white.svg'
+import assistentIcon from '../assets/assistent_icon.svg'
+import accountIcon from '../assets/my_account_icon.svg'
+
 import TransactionItem from '../Components/TransactionItem';
 import api from '../Api.js'
 import currencyApi from '../CurrencyApi.js'
@@ -79,21 +83,23 @@ function Main() {
                 </div>
                 <div style={{'display': 'flex', 'justifyContent': 'center'}}>
                     <div className='grid_menu_container'>
-                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
-                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
-                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
-                        <MenuItem icon={ FaWallet } color="#ffffff" text="Chave Pix"/>
+                        <MenuItem icon={ pixIcon } color="#ffffff" text="Chave Pix"/>
+                        <MenuItem icon={ tdTokeIcon } color="#ffffff" text="TDTokens"/>
+                        <MenuItem icon={ assistentIcon } color="#ffffff" text="Assistente"/>
+                        <MenuItem icon={ accountIcon } color="#ffffff" text="Minha Conta"/>
                     </div>
                 </div>
                 <div className='transactions_container'>
                     <span className='title'>Últimas movimentações</span>
                     <hr />
-                    { loading && <Skeleton count={5} style={{height: '80px'}} /> }
-                    { user && user.transactions &&
-                        user.transactions.map((transaction, index) => {
-                            return <TransactionItem key={index} date={transaction.date} description={transaction.description} tokenValue={transaction.tokenValue} sender={transaction.sender} /> 
-                        })
-                    }
+                    <div className='transactions_list'>
+                        { loading && <Skeleton count={5} style={{height: '80px'}} /> }
+                        { user && user.transactions &&
+                            user.transactions.map((transaction, index) => {
+                                return <TransactionItem key={index} date={transaction.date} description={transaction.description} tokenValue={transaction.tokenValue} sender={transaction.sender} /> 
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,9 +6,21 @@
 }
 
 .transactions_container{
-    flex-grow: 1;
+    /* flex-grow: 1; */
+    height: 500px;
     margin-top: 15px;
 }
+
+.transactions_list{
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
+.transactions_list::-webkit-scrollbar{
+    display: none;
+}
+
 
 .panel_balance_container{
     display: flex;
