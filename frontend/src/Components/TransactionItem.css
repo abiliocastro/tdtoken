@@ -20,11 +20,14 @@
 }
 
 .transaction .bottom .description{
-    font-size: 10px;
+    width: 100%;
+    max-width: 280px;
+    font-size: 13px;
 }
 
 .transaction .bottom .description span{
     font-weight: 700;
+    
 }
 
 .transaction .bottom .balance{

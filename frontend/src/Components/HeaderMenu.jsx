@@ -8,10 +8,9 @@ function HeaderMenu(props) {
     return (
         <div className='header_container'>
             <span> 
-                {console.log(props.hideBack)}
                 {!props.hideBack && 
                 <IconContext.Provider value={{ className: 'react_icons', stroke: "black", strokeWidth: "15" }}>
-                    <a onClick={() => { navigate(props.navigatePath) }}> 
+                    <a className='arrow-left' onClick={() => { navigate(props.navigatePath) }}> 
                         <SlArrowLeft color='#FFFFFF'/>  
                      </a>
                      {props.text}

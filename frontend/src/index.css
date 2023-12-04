@@ -150,6 +150,10 @@ div[class^="load-item-"]{
     animation: dot-three 2s infinite linear
 }
 
+.arrow-left {
+    cursor: pointer;
+}
+
 @keyframes load-item-one{
     0%{
         opacity: 0.2;
