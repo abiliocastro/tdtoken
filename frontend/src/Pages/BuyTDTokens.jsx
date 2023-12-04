@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import HeaderMenu from '../Components/HeaderMenu';
+import InputTransection from '../Components/InputTransaction';
+import ButtonSecondary from '../Components/ButtonSecondary';
 import CurrencyFormat from 'react-currency-format';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -11,6 +13,8 @@ import currencyApi from '../CurrencyApi.js'
 function BuyTDTokens() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingCurrentValue, setLoadingCurrentValue] = useState(true);
+    
     const [amount, setAmount] = useState(null)
     const [currentValue, setCurrentValue] = useState(null)
     const [transactionID, setTransactionID] = useState(null)
@@ -34,7 +38,7 @@ function BuyTDTokens() {
                 currencyApi.get().then(responseCurrency => {
                     const currentValue = responseCurrency.data.data.rates['BRL']
                     setCurrentValue((parseFloat(currentValue)).toFixed(4))
-                    // setLoadingBalanceToReal(false)
+                    setLoadingCurrentValue(false)
                 })
             }
         })
@@ -74,9 +78,10 @@ function BuyTDTokens() {
         <div>
             <HeaderMenu text='Comprar TDTokens' />
             <div className='content_container' style={showNextPage == 1 ? {display: 'flex'} : {display: 'none'}}>
-                <p className='main_description'>Seu saldo em reais é 
+                <p className='main_description' style={{'display': 'flex'}}>
+                    Seu saldo em reais é &nbsp;
                     <span>
-                        { loading && <Skeleton /> }
+                        { loading && <Skeleton style={{'width': '55px'}}/> }
                         { user && <CurrencyFormat value={user.realBalance} displayType={'text'} decimalScale={2} thousandSeparator={'.'} decimalSeparator={','} prefix={' R$ '} /> }
                     </span>
                 </p>
@@ -88,7 +93,13 @@ function BuyTDTokens() {
                         <span className='text_type'>TDToken</span>
                     </div>
                 </div>
-                <p className='main_current_value'>Valor Atual: <span>{ currentValue && <CurrencyFormat value={currentValue} displayType={'text'}  prefix={' R$ '} /> }</span></p>
+                <p className='main_current_value'>
+                    Valor Atual: 
+                    <span>
+                        { loadingCurrentValue && <Skeleton style={{'width': '55px'}}/> }
+                        { currentValue && <CurrencyFormat value={currentValue} displayType={'text'}  prefix={' R$ '} /> }
+                    </span>
+                </p>
                 <div className='aling-right'>
                     <button onClick={nextPage} className='button_secondary' style={{marginTop: '25px'}}> Comprar TDTokens </button>
                 </div>

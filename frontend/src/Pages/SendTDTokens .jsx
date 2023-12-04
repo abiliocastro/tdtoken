@@ -2,8 +2,11 @@ import api from '../Api';
 import HeaderMenu from '../Components/HeaderMenu';
 import InputTransection from '../Components/InputTransaction';
 import ButtonSecondary from '../Components/ButtonSecondary';
+import CurrencyFormat from 'react-currency-format';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import tdTokenIcon from '../assets/td_token_icon.svg'
 import pixIcon from '../assets/pix_icon.svg'
@@ -15,6 +18,8 @@ function SendTDTokens() {
 
     const [amount, setAmount] = useState(null)
     const [receiver, setReceiver] = useState(null)
+    const [balance, setBalance] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [receiverName, setReceiverName] = useState(null)
     const [transactionID, setTransactionID] = useState(null)
     const [showNextPage, setShowNextPage] = useState(1)
@@ -73,11 +78,30 @@ function SendTDTokens() {
         }
     }
 
+    useEffect(() => {
+        api.get('/balance/'+localStorage.getItem("userId"),
+        { 
+            withCredentials: true
+        }
+        ).then(balanceResponse => {
+            const balance = balanceResponse.data.balance;
+            setBalance(balance)
+            setLoading(false)
+        })
+    }, []); 
+
     return (
         <div>
             <HeaderMenu text='Enviar TDTokens' />
             <div className='content_container' style={showNextPage == 1 ? {display: 'flex'} : {display: 'none'}}>
-                <p className='main_description'>Você possui <span>10000</span> TDTokens</p>
+                <p className='main_description' style={{'display': 'flex'}}>
+                    Você possui&nbsp;
+                    <span>
+                        { loading && <Skeleton style={{'width': '55px'}}/> }
+                        { balance && <CurrencyFormat value={balance} displayType={'text'} decimalScale={2} thousandSeparator={'.'} decimalSeparator={','} prefix={''} /> }
+                    </span>  
+                    &nbsp;TDTokens
+                </p>
                 <div>
                     <p className='input_transaction_description'>Quero Enviar</p>
                     <div className='input_transection'>
