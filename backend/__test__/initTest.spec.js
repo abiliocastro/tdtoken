@@ -6,6 +6,10 @@ const timeout = 60000;
 const lb = "calangobank@calangobank.com";
 const ac = "castro.abilio@gmail.com";
 const ln = "leandrobeserra11@gmail.com";
+const jc = "jerod@crows.com";
+const vc = "valdir@cruz.com";
+const xp = "xica@dopote.com";
+
 
 // First: TD gives 250000 TDTokens for the CalangoBank
 test('CalangoBank should have 250000 of initial TDTokens balance', async () => {
@@ -59,6 +63,28 @@ test('CalangoBank should bind AbilioCastro key', async () => {
 test('CalangoBank should bind LeandroBeserra key', async () => {
   await bind_key(lb, ln);
   return key_holder(ln).then(result => {
+    expect(result).toBe(lb);
+  });
+}, timeout);
+
+// Finally
+test('CalangoBank should bind JerodCrows key', async () => {
+  await bind_key(lb, jc);
+  return key_holder(jc).then(result => {
+    expect(result).toBe(lb);
+  });
+}, timeout);
+
+test('CalangoBank should bind ValdirCruz key', async () => {
+  await bind_key(lb, vc);
+  return key_holder(vc).then(result => {
+    expect(result).toBe(lb);
+  });
+}, timeout);
+
+test('CalangoBank should bind XicaDoPote key', async () => {
+  await bind_key(lb, xp);
+  return key_holder(xp).then(result => {
     expect(result).toBe(lb);
   });
 }, timeout);

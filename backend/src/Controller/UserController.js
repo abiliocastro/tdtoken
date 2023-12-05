@@ -4,6 +4,7 @@ export class UserController {
   async handleUser(request, response) {
     try {
       const result = await saveUser(request.body);
+      request.session.user = request.body;
       return response.status(200).json({
         "userId": result
       });
