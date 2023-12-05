@@ -3,7 +3,10 @@ import HeaderMenu from '../Components/HeaderMenu';
 import logo from '../assets/logo.svg'
 import api from '../Api.js'
 
+import { useNavigate } from 'react-router-dom';
+
 function SingUp() {
+    const navigate = useNavigate();
 
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [showPasswordPage, setShowPasswordPage] = useState(false)
@@ -37,7 +40,7 @@ function SingUp() {
             "password": passwordField.current.value,
             "realBalance": 0
           }).then(response => {
-            
+            navigate('/login');
           })
         }
     }

@@ -64,7 +64,6 @@ function SendTDTokens() {
                 setLoadingRequest(false)
             })
         }
-
     }
 
     function nextPage(){
