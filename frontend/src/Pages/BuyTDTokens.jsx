@@ -81,7 +81,7 @@ function BuyTDTokens() {
         <div>
             { loadingRequest && <LoadAnimation /> }
 
-            <HeaderMenu text='Comprar TDTokens' />
+            <HeaderMenu text='Comprar TDTokens' navigatePath={'/tokens/manage'} />
             <div className='content_container' style={showNextPage == 1 ? {display: 'flex'} : {display: 'none'}}>
                 <p className='main_description' style={{'display': 'flex'}}>
                     Seu saldo em reais é &nbsp;
