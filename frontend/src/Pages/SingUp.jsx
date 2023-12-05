@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import HeaderMenu from '../Components/HeaderMenu';
 import logo from '../assets/logo.svg'
+import api from '../Api.js'
 
 function SingUp() {
 
@@ -29,12 +30,15 @@ function SingUp() {
            passwordField.current.value &&
            confirmPasswordField.current.value)
         {
-           console.log('chamando tela de cadastro!')   
-           console.log(nameField.current.value)   
-           console.log(emailField.current.value)   
-           console.log(cpfField.current.value)   
-           console.log(passwordField.current.value)   
-           console.log(confirmPasswordField.current.value)   
+          api.post('/user', {
+            "name": nameField.current.value,
+            "key": nameField.current.value.trim(),
+            "email": emailField.current.value,
+            "password": passwordField.current.value,
+            "realBalance": 0
+          }).then(response => {
+            
+          })
         }
     }
 

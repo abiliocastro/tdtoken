@@ -59,6 +59,9 @@ function SendTDTokens() {
                     setShowNextPage(3)
                 }
                 setLoadingRequest(false)
+            }).catch(error => {
+                console.log(error)
+                setLoadingRequest(false)
             })
         }
 
@@ -97,7 +100,7 @@ function SendTDTokens() {
         <div>
             { loadingRequest && <LoadAnimation /> }
 
-            <HeaderMenu text='Enviar TDTokens' />
+            <HeaderMenu text='Enviar TDTokens' navigatePath={'/tokens/manage'}/>
             <div className='content_container' style={showNextPage == 1 ? {display: 'flex'} : {display: 'none'}}>
                 <p className='main_description' style={{'display': 'flex'}}>
                     Você possui&nbsp;

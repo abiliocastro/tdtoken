@@ -61,6 +61,9 @@ function BuyTDTokens() {
                     setShowNextPage(3)
                 }
                 setLoadingRequest(false)
+            }).catch(error => {
+                console.log(error)
+                setLoadingRequest(false)
             })
         }
     }
