@@ -35,12 +35,13 @@ function SingUp() {
         {
           api.post('/user', {
             "name": nameField.current.value,
-            "key": nameField.current.value.trim(),
+            "key": (nameField.current.value).trim(),
             "email": emailField.current.value,
             "password": passwordField.current.value,
             "realBalance": 0
           }).then(response => {
-            navigate('/login');
+            localStorage.setItem("userId", emailField.current.value);
+            navigate('/dashboard');
           })
         }
     }
